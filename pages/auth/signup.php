@@ -20,6 +20,7 @@ $csrfToken = Helper::generateCsrfToken();
 <body>
     <div class="container">
         <div class="left">
+            <img src="./assets/lotus_logo.png" alt="lotus logo">
             <h2>Join Us Today!</h2>
             <p>Let’s get started! Create your account in just a few clicks</p>
         </div>
