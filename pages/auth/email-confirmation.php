@@ -1,6 +1,6 @@
 <?php
 
-use Utils\Helper;
+use \Utils\Helper;
 
 $csrfToken = Helper::generateCsrfToken();
 
