@@ -80,7 +80,7 @@ class UpdateProfile
                     Helper::redirect('profile');
                     exit;
                 } else {
-                    $_SESSION['errors']['update-password'] = 'You supplied wrong current password';
+                    $_SESSION['errors']['update-password'] = 'You entered the wrong current password';
                     Helper::redirect('profile');
                     exit;
                 }
