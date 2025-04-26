@@ -12,9 +12,9 @@ $csrfToken = Helper::generateCsrfToken();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign In</title>
-    <link rel="stylesheet" href="assets/css/auth_styles.css">
+    <link rel="stylesheet" href="assets/css/staff_styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
+    
 
 </head>
 
@@ -22,13 +22,7 @@ $csrfToken = Helper::generateCsrfToken();
     <div class="container">
         <div class="logo"></div>
         <div class="left">
-            <img src="./assets/lotus_logo.png" alt="lotus logo">
-            <h2>Hello again, we've missed you!</h2>
-            <p>Sign in to access our exclusive features</p>
-            <p><a href="staff-signin">Staff</a></p>
-        </div>
-        <div class="right">
-            <h2>Sign In</h2>
+            <h2 >Sign In</h2>
             <?php if (isset($_SESSION['errors'])): ?>
                 <div class="error-messages">
                     <?php Helper::showError("general") ?>
@@ -37,16 +31,14 @@ $csrfToken = Helper::generateCsrfToken();
 
             <form action="sign-in" method="POST">
                 <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrfToken) ?>">
-
+                
                 <div class="input-group">
                     <input type="text" name="username" <?= Helper::oldValue("username", "Username") ?> required>
                     <?php Helper::showError("username") ?>
                 </div>
-                
+    
                 <div class="input-group">
-                    <input type="text" name="email" <?= Helper::oldValue("email", "Enter your email") ?> required>
-                    <?php Helper::showError("email") ?>
-
+                    <input type="email" name="staff-email" <?= Helper::oldValue("staff-email", "Work Email") ?> required>
                 </div>
                 <div class="input-group">
                     <input type="password" name="password" <?= Helper::oldValue('password', 'Password') ?> required>
@@ -62,8 +54,15 @@ $csrfToken = Helper::generateCsrfToken();
                 <button type="submit" class="btn">Sign In</button>
             </form>
             <div class="register">
-                Want to be a member? <a href="sign-up">Create an Account</a>
+            Need staff access? <a href="staff-signup">Request Account</a>
             </div>
+
+        </div>
+        <div class="right">
+            <img src="./assets/lotus_logo.png" alt="lotus logo">
+            <h2 class="message-text" id="messageTitle">Staff Portal Access</h2>
+            <p class="message-subtext" id="messageSubtext" >Sign in to access administrative features and staff resources</p>
+
         </div>
     </div>
     <script src="assets/javascript/main.js"></script>

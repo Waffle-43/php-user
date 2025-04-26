@@ -26,11 +26,13 @@ class SignUp
 
 
         $v = new Validator($_POST);
-        $v->rule('required', ['full_name', 'email', 'password', 'confirm_password',])->message('{field} is required');
+        $v->rule('required', ['name', 'username', 'email', 'password', 'confirm_password',])->message('{field} is required');
+        $v->rule('username', 'username')->message('Invalid username');
+        $v->rule('alphaNum', 'username');
         $v->rule('email', 'email')->message('Invalid email format');
         $v->rule('lengthMin', 'password', 6)->message('Password must be at least 6 characters');
         $v->rule('equals', 'password', 'confirm_password')->message('Passwords do not match');
-        $v->rule('regex', 'full_name', '/^[A-Za-z\s]+$/')->message('Full name must contain only letters and spaces');
+        $v->rule('regex', 'name', '/^[A-Za-z\s]+$/')->message('Full name must contain only letters and spaces');
 
         // Validate
         if (!$v->validate()) {
@@ -41,7 +43,8 @@ class SignUp
         }
 
         // Get validated inputs
-        $full_name = $_POST['full_name'];
+        $username = $_POST['username'];
+        $full_name = $_POST['name'];
         $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
         $email = $_POST['email'];
         $verificationCode = rand(100000, 999999);
@@ -57,7 +60,7 @@ class SignUp
             exit;
         }
 
-        $created = $user->createUser($full_name, $email, $password, $verificationCode);
+        $created = $user->createUser($full_name, $username, $email, $password, $verificationCode);
 
         if ($created) {
             $_SESSION['success'] = "Account created successfully!";

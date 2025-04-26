@@ -36,6 +36,11 @@ class AppRouter
             Middleware::requireAuth();
             require __DIR__ . '/../pages/home.php';
         });
+        $router->get('staff-dashboard', 'App\Controllers\Dashboard::index');
+
+        $router->get('staff-manage', 'App\Controllers\Dashboard::manageStaff');
+        
+        $router->post('staff-approve', 'App\Controllers\Dashboard::approveStaff');
 
 
         // Authentication routes
@@ -46,6 +51,15 @@ class AppRouter
 
         $router->get('/sign-up', function () {
             require __DIR__ . '/../pages/auth/signup.php';
+            Middleware::guestOnly();
+        });
+
+        $router->get('/staff-signin', function () {
+            require __DIR__ . '/../pages/auth/staff-signin.php';
+            Middleware::guestOnly();
+        });
+        $router->get('/staff-signup', function () {
+            require __DIR__ . '/../pages/auth/staff-signup.php';
             Middleware::guestOnly();
         });
 
@@ -80,7 +94,11 @@ class AppRouter
             Middleware::requireAuth();
             require __DIR__ . '/../pages/user/profile.php';
         });
+        $router->post('update-profile', [UpdateProfile::class, 'updateProfile']);
 
+        $router->post('/upload-pfp', function () {
+            require __DIR__ . '/../pages/user/upload-pfp.php';
+        });
 
 
         //post routes

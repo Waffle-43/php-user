@@ -12,11 +12,14 @@ class UpdateProfile
 {
     public static function updateProfile()
     {
+
+
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             self::setSessionError('general', 'Invalid request method.');
             Helper::redirect('reset-password');
             return;
-        };
+        }
+        ;
         $token = $_POST['csrf_token'] ?? null;
 
         if (!Helper::verifyCsrfToken($token)) {
@@ -26,21 +29,24 @@ class UpdateProfile
 
         $confirm_email = Helper::decryptEmail($_SESSION['user']['email_encrypted']);
         $email = $_SESSION['user']['email'];
+        $username = $_SESSION['user']['username'];
 
         if ($confirm_email !== $email) {
             $_SESSION['errors']['general'][] = "Something went wrong!";
             Helper::redirect('profile');
-            return;;
+            return;
+            ;
         }
 
         $user = (new User())->findByEmail($email);
+
         if ($user) {
             $v = new Validator($_POST);
 
             if (isset($_POST['update-profile'])) {
-                $name = Helper::sanitize($_POST['name'] ?? null, 'string');
-                $v->rule('required', 'name')->message('Name is required');
-                $v->rule('regex', 'name', '/^[A-Za-z\s]+$/')->message('Full name must contain only letters and spaces');
+                $username = Helper::sanitize($_POST['username'] ?? null, 'string');
+                $v->rule('required', 'username')->message('Username is required');
+                $v->rule('regex', 'username', '/^[A-Za-z\s]+$/')->message('Username must contain only letters and spaces');
                 if (!$v->validate()) {
                     $_SESSION['errors'] = $v->errors();
                     $_SESSION['old'] = $_POST;
@@ -49,11 +55,11 @@ class UpdateProfile
                 }
 
                 (new User())->updateUser($user->id, [
-                    'name' => $name,
+                    'username' => $username,
                 ]);
 
-                $_SESSION['user']['name'] = $name;
-                $_SESSION['success']['update-profile'] = 'Profile name updated';
+                $_SESSION['user']['username'] = $username;
+                $_SESSION['success']['update-profile'] = 'Profile username updated';
                 Helper::redirect('profile');
                 exit;
             } elseif (isset($_POST['update-password'])) {
@@ -84,10 +90,12 @@ class UpdateProfile
                     Helper::redirect('profile');
                     exit;
                 }
+                
             } elseif (isset($_POST['delete'])) {
                 (new User())->deleteuser($user->id);
                 Middleware::logout();
-            } else {
+            } 
+             else {
                 return;
             }
         }
@@ -96,4 +104,5 @@ class UpdateProfile
     {
         $_SESSION['errors'][$key] = $message;
     }
-};
+}
+;

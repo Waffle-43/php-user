@@ -5,6 +5,17 @@ namespace Utils;
 class Helper
 {
     /**
+     * Validate a CSRF token.
+     *
+     * @param string $token
+     * @return bool
+     */
+    public static function validateCsrfToken($token)
+    {
+        return isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token);
+    }
+
+    /**
      * Generate a random numeric code of a given length.
      *
      * @param int $length The length of the code (default is 6)

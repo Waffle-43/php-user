@@ -36,4 +36,23 @@ class Database
         }
         return self::$instance->pdo;
     }
+
+    // Add this query method
+    public function query(string $sql, array $params = [])
+    {
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute($params);
+
+            // If the query is a SELECT, return the results
+            if (stripos($sql, 'SELECT') === 0) {
+                return $stmt->fetchAll();
+            }
+
+            // For INSERT, UPDATE, DELETE, return the number of affected rows
+            return $stmt->rowCount();
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
 }

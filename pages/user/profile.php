@@ -6,9 +6,9 @@ $user = $_SESSION['user'];
 
 $csrfToken = Helper::generateCsrfToken();
 
-
-
-
+if (!isset($user)) {
+    Helper::redirect('sign-in');
+}
 ?>
 
 <!DOCTYPE html>
@@ -26,6 +26,20 @@ $csrfToken = Helper::generateCsrfToken();
         <a href="home">
             <div class="brand">Home</div>
         </a>
+    </div>
+    <div class="container">
+        <h2>Upload Profile Picture</h2>
+        
+        <?php  ?>
+        <form action="upload-pfp" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrfToken) ?>">
+            <div class="form-group">
+                <label for="profile-picture">Profile Picture</label>
+                <input type="file" name="profile-picture" id="profile-picture" accept="image/*" required>
+                <?= Helper::showError('profile-picture') ?>
+            </div>
+            <button name="upload-pfp" type="submit" class="btn">Upload Picture</button>
+        </form>
     </div>
     <div class="container">
         <h1>Profile Settings</h1>
@@ -46,8 +60,8 @@ $csrfToken = Helper::generateCsrfToken();
         <form method="POST" action="update-profile">
             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrfToken) ?>">
             <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" name="name" id="name" <?= Helper::oldValue('name', "$user[name]"); ?>>
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" <?= Helper::oldValue('username', "$user[username]"); ?>>
                 <?= Helper::showError('name') ?>
             </div>
             <div class="form-group">
@@ -63,7 +77,7 @@ $csrfToken = Helper::generateCsrfToken();
             <div class="success-messages">
                 <p class="success"><?= $_SESSION['success']['update-password'] ?></p>
             </div>
-        <?php elseif (isset($_SESSION['errors']['update-password'])) : ?>
+        <?php elseif (isset($_SESSION['errors']['update-password'])): ?>
             <div class="error-messages">
                 <p class="error"><?= $_SESSION['errors']['update-password'] ?></p>
             </div>

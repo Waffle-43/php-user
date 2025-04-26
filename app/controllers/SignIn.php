@@ -23,7 +23,8 @@ class SignIn
             die("CSRF validation failed!");
         }
         $v = new Validator($_POST);
-        $v->rule('required', ['email', 'password'])->message('{field} is required');
+        $v->rule('required', ['username','email', 'password'])->message('{field} is required');
+        $v->rule('username', 'username')->message('Invalid username');
         $v->rule('email', 'email')->message('Invalid email format');
         $v->rule('lengthMin', 'password', 6)->message('Password must be at least 6 characters');
 
@@ -34,6 +35,7 @@ class SignIn
             exit;
         }
 
+        $username = $_POST['username'];
         $email = $_POST['email'];
         $password = $_POST['password'];
 
@@ -43,7 +45,7 @@ class SignIn
             if (password_verify($password, $user->password)) {
                 $_SESSION['user'] = [
                     'id' => $user->id,
-                    'name' => $user->name,
+                    'username' => $user->username,
                     'email' => $user->email,
                     'email_encrypted' => Helper::encryptEmail($user->email),
                     'last_activity' => time(),
@@ -55,7 +57,7 @@ class SignIn
                 Helper::redirect("home");
             } else {
 
-                self::showError('general', 'Wrong credentials supplied', 'sign-in');
+                self::showError('general', 'Wrong login details', 'sign-in');
             }
         } else {
             self::showError('email', "Email address not found", "sign-in");

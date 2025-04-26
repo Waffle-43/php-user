@@ -24,10 +24,10 @@ class User extends BaseModel
         return $stmt->fetch(PDO::FETCH_ASSOC) !== false;
     }
 
-    public function createUser($name, $email, $password, $verificationCode)
+    public function createUser($name, $username, $email, $password, $verificationCode)
     {
-        $stmt = $this->pdo->prepare("INSERT INTO {$this->table} (name, email, password,verification_code) VALUES (?, ?, ?,?)");
-        return $stmt->execute([$name, $email, $password, $verificationCode]);
+        $stmt = $this->pdo->prepare("INSERT INTO {$this->table} (name, username, email, password,verification_code) VALUES (?, ?, ?, ?,?)");
+        return $stmt->execute([$name, $username, $email, $password, $verificationCode]);
     }
     public function findByEmail($email)
     {
@@ -66,7 +66,14 @@ class User extends BaseModel
         $stmt = $this->pdo->prepare($sql);
         return $stmt->execute($values);
     }
-    
+
+    public function getAllUsers()
+    {
+        $sql = "SELECT * FROM {$this->table}";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     public function deleteUser($id)
     {
