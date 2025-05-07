@@ -41,25 +41,19 @@ $email = $_SESSION['verification_email'] ?? null;
                     <p class="success"><?= htmlspecialchars($_SESSION['success']); ?></p>
                 </div>
             <?php endif ?>
+            <button type="submit" class="btn">Verify</button>
             <form action="verify-email" method="POST">
                 <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrfToken) ?>">
-
+                <input type="hidden" name="role"
+                    value="<?= isset($_GET['role']) && $_GET['role'] === 'staff' ? 'staff' : 'user' ?>">
                 <div class="input-group">
                     <input type="hidden" name="email" value="<?= htmlspecialchars($email) ?>">
                     <input type="text" name="code" <?= Helper::oldValue("code", "Enter verification code") ?> required>
                 </div>
                 <button type="submit" class="btn">Verify</button>
             </form>
-            <div class="register">
-                Didn't receive the code?
-                <form action="verify-email" method="POST">
-                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrfToken) ?>">
-
-                    <input type="hidden" name="email" value="<?= htmlspecialchars($email) ?>">
-                    <button type="submit" class="btn-link">Request a new one</button>
-                </form>
-            </div>
         </div>
+    </div>
     </div>
 </body>
 

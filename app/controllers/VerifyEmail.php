@@ -83,9 +83,15 @@ class VerifyEmail
         $userInstance = new User();
         $user = $userInstance->findByEmail($email);
 
-        if (!$user) return ['status' => 'error', 'message' => 'User not found.'];
-        if ($user->verification_status == "verified") return Helper::redirect('home');
-        if ($user->verification_code != $code) return ['status' => 'error', 'message' => 'Invalid verification code.'];
+        if (!$user)
+            return ['status' => 'error', 'message' => 'User not found.'];
+        if ($user->verification_status == "verified") {
+            // Redirect based on role
+            $redirectPage = isset($_POST['role']) && $_POST['role'] === 'staff' ? 'staff-signin' : 'sign-in';
+            return Helper::redirect($redirectPage);
+        }
+        if ($user->verification_code != $code)
+            return ['status' => 'error', 'message' => 'Invalid verification code.'];
 
         $userInstance->updateUser($user->id, [
             'verification_status' => "verified",
@@ -93,7 +99,9 @@ class VerifyEmail
             'request_attempts' => 0
         ]);
 
-        Helper::redirect('home');
+        // Redirect based on role
+        $redirectPage = isset($_POST['role']) && $_POST['role'] === 'staff' ? 'staff-signin' : 'sign-in';
+        Helper::redirect($redirectPage);
         exit;
     }
 
@@ -102,12 +110,15 @@ class VerifyEmail
         $userInstance = new User();
         $user = $userInstance->findByEmail($email);
 
-        if (!$user) return ['status' => 'error', 'message' => 'User not found.'];
-        if ($user->is_verified) return ['status' => 'error', 'message' => 'Email is already verified.'];
+        if (!$user)
+            return ['status' => 'error', 'message' => 'User not found.'];
+        if ($user->is_verified)
+            return ['status' => 'error', 'message' => 'Email is already verified.'];
 
         $waitTimes = [1, 2, 3, 4, 5];
         $attempts = $user->request_attempts ?? 0;
-        if ($attempts >= 5) return ['status' => 'error', 'message' => 'Maximum attempts reached.'];
+        if ($attempts >= 5)
+            return ['status' => 'error', 'message' => 'Maximum attempts reached.'];
 
         $waitTime = $waitTimes[$attempts] * 60;
         $lastRequestTime = strtotime($user->verification_requested_at);

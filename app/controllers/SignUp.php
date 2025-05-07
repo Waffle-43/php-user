@@ -75,7 +75,7 @@ class SignUp
                 $email_sent =  $mailService->sendEmail($email, "Your Verification Code", $emailBody);
                 if ($email_sent) {
                     $_SESSION['verification_email'] = $email;
-                    Helper::redirect("verify-email");
+                    Helper::redirect("verify-email?role=user");
                 }
             } else {
                 Helper::redirect("sign-in");

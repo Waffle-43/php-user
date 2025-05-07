@@ -7,6 +7,11 @@ use App\Controllers\VerifyEmail;
 use App\Controllers\SignUp;
 use App\Controllers\SignIn;
 use App\Controllers\UpdateProfile;
+use App\Controllers\AdminDashboard;
+use App\Controllers\StaffAuth;
+use App\Controllers\StaffSignIn;
+use App\Controllers\StaffSignUp;
+use App\Controllers\RolePermission;
 use Utils\Helper;
 
 use Bramus\Router\Router;
@@ -117,7 +122,28 @@ class AppRouter
             UpdateProfile::updateProfile();
         });
 
+        //staff routes
+        $router->get('/staff-dashboard', function () {
+            require __DIR__ . '/../pages/staff/dashboard.php';
+            StaffAuth::requireStaffLogin();
+            AdminDashboard::index();
+        });
 
+        $router->get('/staff-manage', function () {
+            require __DIR__ . '/../pages/staff/manage_staff.php';
+            StaffAuth::requirePermission('manage_staff');
+            AdminDashboard::manageStaff();
+        });
+
+        $router->post('/staff-confirmation', function () {
+            require __DIR__ . '/../pages/staff/confirmation.php';
+            StaffAuth::requirePermission('manage_staff');
+            AdminDashboard::approveStaff();
+        });
+
+        $router->get('/staff-logout', function () {
+            StaffAuth::logout();
+        });
 
 
         $router->post('/verify-email', function () {
