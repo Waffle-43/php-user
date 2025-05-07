@@ -15,21 +15,21 @@ class Staff
         $this->db = new Database();
     }
 
-    public function createStaff(string $name, string $username, string $email, string $password, string $status = 'pending', string $role = 'staff')
+    public function createStaff(array $data)
     {
         $query = "INSERT INTO staff (name, username, email, password, status, role, created_at) 
                   VALUES (:name, :username, :email, :password, :status, :role, NOW())";
         
-        $params = [
-            'name' => $name,
-            'username' => $username,
-            'email' => $email,
-            'password' => $password,
-            'status' => $status,
-            'role' => $role
-        ];
+        // Set default values if not provided
+        if (!isset($data['status'])) {
+            $data['status'] = 'pending';
+        }
         
-        return $this->db->query($query, $params);
+        if (!isset($data['role'])) {
+            $data['role'] = 'staff';
+        }
+        
+        return $this->db->query($query, $data);
     }
 
     public function findByEmail(string $email)
@@ -39,6 +39,17 @@ class Staff
                  LEFT JOIN roles r ON s.role = r.name
                  WHERE s.email = :email LIMIT 1";
         $result = $this->db->query($query, ['email' => $email]);
+        
+        return $result ? $result[0] : null;
+    }
+    
+    public function findByUsername(string $username)
+    {
+        $query = "SELECT s.*, r.permissions 
+                 FROM staff s
+                 LEFT JOIN roles r ON s.role = r.name
+                 WHERE s.username = :username LIMIT 1";
+        $result = $this->db->query($query, ['username' => $username]);
         
         return $result ? $result[0] : null;
     }
@@ -141,5 +152,34 @@ class Staff
         $query = "UPDATE staff SET $updateStr, updated_at = NOW() WHERE id = :id";
         
         return $this->db->query($query, $params);
+    }
+    
+    public function updateStaff(int $id, array $data)
+    {
+        $allowedFields = ['name', 'username', 'email', 'role', 'status', 'password'];
+        $updates = [];
+        $params = ['id' => $id];
+        
+        foreach ($data as $field => $value) {
+            if (in_array($field, $allowedFields)) {
+                $updates[] = "$field = :$field";
+                $params[$field] = $value;
+            }
+        }
+        
+        if (empty($updates)) {
+            return false;
+        }
+        
+        $updateStr = implode(', ', $updates);
+        $query = "UPDATE staff SET $updateStr, updated_at = NOW() WHERE id = :id";
+        
+        return $this->db->query($query, $params);
+    }
+    
+    public function deleteStaff(int $id)
+    {
+        $query = "DELETE FROM staff WHERE id = :id";
+        return $this->db->query($query, ['id' => $id]);
     }
 }

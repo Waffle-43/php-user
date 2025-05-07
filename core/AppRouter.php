@@ -41,11 +41,6 @@ class AppRouter
             Middleware::requireAuth();
             require __DIR__ . '/../pages/home.php';
         });
-        $router->get('staff-dashboard', 'App\Controllers\Dashboard::index');
-
-        $router->get('staff-manage', 'App\Controllers\Dashboard::manageStaff');
-        
-        $router->post('staff-approve', 'App\Controllers\Dashboard::approveStaff');
 
 
         // Authentication routes
@@ -124,21 +119,33 @@ class AppRouter
 
         //staff routes
         $router->get('/staff-dashboard', function () {
-            require __DIR__ . '/../pages/staff/dashboard.php';
             StaffAuth::requireStaffLogin();
             AdminDashboard::index();
         });
 
         $router->get('/staff-manage', function () {
-            require __DIR__ . '/../pages/staff/manage_staff.php';
-            StaffAuth::requirePermission('manage_staff');
+            StaffAuth::requirePermission(RolePermission::PERMISSION_MANAGE_STAFF);
             AdminDashboard::manageStaff();
         });
 
         $router->post('/staff-confirmation', function () {
-            require __DIR__ . '/../pages/staff/confirmation.php';
-            StaffAuth::requirePermission('manage_staff');
+            StaffAuth::requirePermission(RolePermission::PERMISSION_MANAGE_STAFF);
             AdminDashboard::approveStaff();
+        });
+        
+        $router->post('/staff-update', function () {
+            StaffAuth::requirePermission(RolePermission::PERMISSION_MANAGE_STAFF);
+            AdminDashboard::updateStaff();
+        });
+        
+        $router->post('/staff-add', function () {
+            StaffAuth::requirePermission(RolePermission::PERMISSION_MANAGE_STAFF);
+            AdminDashboard::addStaff();
+        });
+        
+        $router->post('/staff-delete', function () {
+            StaffAuth::requirePermission(RolePermission::PERMISSION_MANAGE_STAFF);
+            AdminDashboard::deleteStaff();
         });
 
         $router->get('/staff-logout', function () {
