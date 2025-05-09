@@ -11,7 +11,7 @@ use App\Controllers\AdminDashboard;
 use App\Controllers\StaffAuth;
 use App\Controllers\StaffSignIn;
 use App\Controllers\StaffSignUp;
-use App\Controllers\RolePermission;
+use App\Auth\RolePermission;
 use Utils\Helper;
 
 use Bramus\Router\Router;
@@ -35,11 +35,11 @@ class AppRouter
         // Home route
         $router->get('/', function () {
             Middleware::requireAuth();
-            require __DIR__ . '/../pages/home.php';
+            require __DIR__ . '/../integration_tests/integrated_homepage.php';
         });
         $router->get('/home', function () {
             Middleware::requireAuth();
-            require __DIR__ . '/../pages/home.php';
+              require __DIR__ . '/../integration_tests/integrated_homepage.php';
         });
 
 
@@ -88,7 +88,58 @@ class AppRouter
             require __DIR__ . '/../pages/auth/email-confirmation.php';
         });
 
+        //service routes
+        $router->get('/services', function () {
+            Middleware::requireAuth();
+            require __DIR__ . '/../services/SerCus.php';
+        });
+        $router->get('/manage-services', function () {
+            Middleware::requireAuth();
+            require __DIR__ . '/../services/service_provider_manage_services.php';
+        });
+        $router->get('/add-services', function () {
+            Middleware::requireAuth();
+            require __DIR__ . '/../services/addService.php';
+        });
+        $router->get('/list-services', function () {
+            Middleware::requireAuth();
+            require __DIR__ . '/../services/list_services.php';
+        });
+        $router->get('/reschedule-services', function () {
+            Middleware::requireAuth();
+            require __DIR__ . '/../services/service_provider_reschedule.php';
+        });
 
+        //appointment routes
+        $router->get('/appointments', function () {
+            Middleware::requireAuth();
+            require __DIR__ . '/..//appointments/appointment.php';
+        });
+        $router->get('/all-appointments', function () {
+            Middleware::requireAuth();
+            require __DIR__ . '/../appointments/service_provider_all_appointments.php';
+        });
+        $router->get('/manage-appointment', function () {
+            Middleware::requireAuth();
+            require __DIR__ . '/../appointments/service_provider_manage_appointment.php';
+        });
+        $router->get('/add-appointments', function () {
+            Middleware::requireAuth();
+            require __DIR__ . '/../appointments/service_provider_add_appointment.php';
+        });
+
+
+        //stylist routes
+        
+        //notification routes
+        $router->get('/all-notifications', function () {
+            Middleware::requireAuth();
+            require __DIR__ . '/../notifications/all_notifications.php';
+        });
+        $router->get('/notification', function () {
+            Middleware::requireAuth();
+            require __DIR__ . '/../notifications/notification.php';
+        });
         //profile route
         $router->get('/profile', function () {
             Middleware::requireAuth();
@@ -121,6 +172,9 @@ class AppRouter
         $router->get('/staff-dashboard', function () {
             StaffAuth::requireStaffLogin();
             AdminDashboard::index();
+        });
+         $router->get('/service-dashboard', function () {
+            require __DIR__ . '/../unified_dashboard.php';
         });
 
         $router->get('/staff-manage', function () {

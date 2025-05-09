@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpaZen - Service Provider Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            transition: all 0.3s;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            font-size: 10px;
+        }
+        .fc-event {
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 12px;
+            padding: 2px 4px;
+        }
+        .overbooked {
+            background-color: #fecaca !important;
+            border-color: #f87171 !important;
+        }
+        .rescheduled {
+            background-color: #fef08a !important;
+            border-color: #facc15 !important;
+        }
+        .treatment-massage {
+            background-color: #a78bfa !important;
+            border-color: #8b5cf6 !important;
+        }
+        .treatment-facial {
+            background-color: #f9a8d4 !important;
+            border-color: #f472b6 !important;
+        }
+        .treatment-body {
+            background-color: #86efac !important;
+            border-color: #4ade80 !important;
+        }
+        .treatment-waxing {
+            background-color: #fca5a5 !important;
+            border-color: #f87171 !important;
+        }
+        .animated-notification {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .spa-gradient-bg {
+            background: linear-gradient(to right, #fbc2eb, #a6c1ee);
+        }
+        .room-availability {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+        .available {
+            background-color: #10b981;
+        }
+        .occupied {
+            background-color: #ef4444;
+        }
+        .soon-available {
+            background-color: #f59e0b;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <div class="sidebar text-white w-64 flex-shrink-0">
+            <div class="p-4 border-b border-indigo-400 border-opacity-20">
+                <h1 class="text-xl font-bold flex items-center">
+                    <i class="fas fa-spa mr-2"></i>
+                    SpaZen Pro
+                </h1>
+                <p class="text-xs text-indigo-100 mt-1">Therapist Portal</p>
+            </div>
+            <nav class="p-4">
+                <div class="mb-6">
+                    <p class="text-xs uppercase text-indigo-200 mb-2">Navigation</p>
+                    <a href="#" class="block py-2 px-3 rounded bg-white bg-opacity-10 mb-1">
+                        <i class="fas fa-spa mr-2"></i> Dashboard
+                    </a>
+                    <a href="#" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
+                        <i class="fas fa-calendar-alt mr-2"></i> Booking Calendar
+                    </a>
+                    <a href="#" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
+                        <i class="fas fa-users mr-2"></i> Clients
+                    </a>
+                    <a href="#" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
+                        <i class="fas fa-concierge-bell mr-2"></i> Treatments
+                    </a>
+                </div>
+                <div class="mb-6">
+                    <p class="text-xs uppercase text-indigo-200 mb-2">Spa Management</p>
+                    <a href="#" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
+                        <i class="fas fa-user-friends mr-2"></i> Therapists
+                    </a>
+                    <a href="#" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
+                        <i class="fas fa-door-open mr-2"></i> Treatment Rooms
+                    </a>
+                    <a href="#" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
+                        <i class="fas fa-box-open mr-2"></i> Product Inventory
+                    </a>
+                </div>
+                <div>
+                    <p class="text-xs uppercase text-indigo-200 mb-2">Settings</p>
+                    <a href="#" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
+                        <i class="fas fa-cog mr-2"></i> Spa Settings
+                    </a>
+                    <a href="#" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
+                        <i class="fas fa-bell mr-2"></i> Notifications
+                    </a>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 overflow-auto">
+            <!-- Top Navigation -->
+            <header class="bg-white shadow-sm">
+                <div class="flex justify-between items-center p-4">
+                    <div class="flex items-center">
+                        <button class="mr-4 text-gray-600">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                        <h2 class="text-lg font-semibold">Spa Booking Dashboard</h2>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="relative">
+                            <button class="text-gray-600 hover:text-purple-600 relative">
+                                <i class="fas fa-bell text-xl"></i>
+                                <span class="notification-badge bg-red-500 text-white rounded-full h-5 w-5 flex items-center justify-center">5</span>
+                            </button>
+                        </div>
+                        <div class="flex items-center">
+                            <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Profile" class="h-8 w-8 rounded-full mr-2">
+                            <span class="text-sm font-medium">Emma Wilson, Lead Therapist</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content Area -->
+            <main class="p-6">
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                    <div class="bg-white rounded-lg shadow p-4 spa-gradient-bg text-white">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-purple-100 text-sm">Today's Bookings</p>
+                                <h3 class="text-2xl font-bold">12</h3>
+                            </div>
+                            <div class="bg-white bg-opacity-20 p-3 rounded-full">
+                                <i class="fas fa-spa text-white"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow p-4">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-gray-500 text-sm">Pending Confirmations</p>
+                                <h3 class="text-2xl font-bold">4</h3>
+                            </div>
+                            <div class="bg-yellow-100 p-3 rounded-full">
+                                <i class="fas fa-clock text-yellow-600"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow p-4">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-gray-500 text-sm">Room Occupancy</p>
+                                <h3 class="text-2xl font-bold">85%</h3>
+                            </div>
+                            <div class="bg-blue-100 p-3 rounded-full">
+                                <i class="fas fa-door-open text-blue-600"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow p-4">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-gray-500 text-sm">Client Waitlist</p>
+                                <h3 class="text-2xl font-bold">7</h3>
+                            </div>
+                            <div class="bg-green-100 p-3 rounded-full">
+                                <i class="fas fa-list-ol text-green-600"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Calendar Section -->
+                    <div class="lg:col-span-2 bg-white rounded-lg shadow p-4">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="font-semibold">Therapist Schedule</h3>
+                            <div class="flex space-x-2">
+                                <div class="relative">
+                                    <select class="appearance-none bg-gray-100 border border-gray-300 rounded px-3 py-1 pr-8 text-sm">
+                                        <option>Emma Wilson</option>
+                                        <option>Sophia Martinez</option>
+                                        <option>James Rodriguez</option>
+                                        <option>Olivia Chen</option>
+                                    </select>
+                                    <i class="fas fa-chevron-down absolute right-2 top-2 text-xs text-gray-500"></i>
+                                </div>
+                                <button class="bg-purple-600 text-white px-3 py-1 rounded text-sm flex items-center hover:bg-purple-700" onclick="openModal()">
+                                    <i class="fas fa-plus mr-1"></i> New Booking
+                                </button>
+                            </div>
+                        </div>
+                        <div id="calendar" class="h-96"></div>
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <div class="flex items-center text-xs">
+                                <span class="room-availability available mr-1"></span> Available
+                            </div>
+                            <div class="flex items-center text-xs">
+                                <span class="room-availability occupied mr-1"></span> Booked
+                            </div>
+                            <div class="flex items-center text-xs">
+                                <span class="room-availability soon-available mr-1"></span> Soon Available
+                            </div>
+                            <div class="flex items-center text-xs">
+                                <div class="w-3 h-3 rounded bg-purple-500 mr-1"></div> Massage
+                            </div>
+                            <div class="flex items-center text-xs">
+                                <div class="w-3 h-3 rounded bg-pink-400 mr-1"></div> Facial
+                            </div>
+                            <div class="flex items-center text-xs">
+                                <div class="w-3 h-3 rounded bg-green-400 mr-1"></div> Body Treatment
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Upcoming Appointments -->
+                    <div class="bg-white rounded-lg shadow p-4">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="font-semibold">Today's Treatments</h3>
+                            <div class="relative">
+                                <select class="appearance-none bg-gray-100 border border-gray-300 rounded px-3 py-1 pr-8 text-sm">
+                                    <option>All Rooms</option>
+                                    <option>Serenity Room</option>
+                                    <option>Tranquility Room</option>
+                                    <option>Harmony Room</option>
+                                </select>
+                                <i class="fas fa-chevron-down absolute right-2 top-2 text-xs text-gray-500"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-3 max-h-96 overflow-y-auto">
+                            <!-- Appointment Item -->
+                            <div class="border-l-4 border-purple-500 pl-3 py-2 bg-purple-50 rounded-r">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <p class="font-medium">Hot Stone Massage</p>
+                                        <p class="text-sm text-gray-600">Sarah Johnson (VIP)</p>
+                                    </div>
+                                    <span class="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded">9:00 AM</span>
+                                </div>
+                                <div class="flex justify-between items-center mt-1">
+                                    <span class="text-xs text-gray-500"><i class="fas fa-door-open mr-1"></i> Serenity Room</span>
+                                    <div class="flex space-x-1">
+                                        <button class="text-xs text-purple-600 hover:text-purple-800">
+                                            <i class="fas fa-check-circle"></i>
+                                        </button>
+                                        <button class="text-xs text-blue-600 hover:text-blue-800">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Appointment Item -->
+                            <div class="border-l-4 border-pink-400 pl-3 py-2 bg-pink-50 rounded-r">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <p class="font-medium">Anti-Aging Facial</p>
+                                        <p class="text-sm text-gray-600">Michael Brown</p>
+                                    </div>
+                                    <span class="text-xs bg-pink-100 text-pink-800 px-2 py-1 rounded">10:30 AM</span>
+                                </div>
+                                <div class="flex justify-between items-center mt-1">
+                                    <span class="text-xs text-gray-500"><i class="fas fa-door-open mr-1"></i> Harmony Room</span>
+                                    <div class="flex space-x-1">
+                                        <button class="text-xs text-purple-600 hover:text-purple-800">
+                                            <i class="fas fa-check-circle"></i>
+                                        </button>
+                                        <button class="text-xs text-blue-600 hover:text-blue-800">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Appointment Item -->
+                            <div class="border-l-4 border-green-400 pl-3 py-2 bg-green-50 rounded-r">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <p class="font-medium">Detox Body Wrap</p>
+                                        <p class="text-sm text-gray-600">Lisa Wong</p>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">12:00 PM</span>
+                                        <span class="ml-1 text-xs bg-blue-500 text-white px-1 rounded">New</span>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center mt-1">
+                                    <span class="text-xs text-gray-500"><i class="fas fa-door-open mr-1"></i> Tranquility Room</span>
+                                    <div class="flex space-x-1">
+                                        <button class="text-xs text-purple-600 hover:text-purple-800">
+                                            <i class="fas fa-check-circle"></i>
+                                        </button>
+                                        <button class="text-xs text-blue-600 hover:text-blue-800">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Appointment Item -->
+                            <div class="border-l-4 border-purple-500 pl-3 py-2 bg-purple-50 rounded-r">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <p class="font-medium">Aromatherapy Massage</p>
+                                        <p class="text-sm text-gray-600">David Kim</p>
+                                    </div>
+                                    <span class="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded">2:00 PM</span>
+                                </div>
+                                <div class="flex justify-between items-center mt-1">
+                                    <span class="text-xs text-gray-500"><i class="fas fa-door-open mr-1"></i> Serenity Room</span>
+                                    <div class="flex space-x-1">
+                                        <button class="text-xs text-purple-600 hover:text-purple-800">
+                                            <i class="fas fa-check-circle"></i>
+                                        </button>
+                                        <button class="text-xs text-blue-600 hover:text-blue-800">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Appointment Item (Overbooked) -->
+                            <div class="border-l-4 border-red-500 pl-3 py-2 bg-red-50 rounded-r">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <p class="font-medium">Couples Massage</p>
+                                        <p class="text-sm text-gray-600">Robert & Maria Smith</p>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-xs bg-red-100 text-red-800 px-2 py-1 rounded">4:30 PM</span>
+                                        <span class="ml-1 text-xs bg-red-500 text-white px-1 rounded">Waitlist</span>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center mt-1">
+                                    <span class="text-xs text-gray-500"><i class="fas fa-door-open mr-1"></i> Harmony Room</span>
+                                    <div class="flex space-x-1">
+                                        <button class="text-xs text-purple-600 hover:text-purple-800">
+                                            <i class="fas fa-check-circle"></i>
+                                        </button>
+                                        <button class="text-xs text-blue-600 hover:text-blue-800">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity and Room Status -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
+                    <!-- Recent Activity -->
+                    <div class="lg:col-span-2 bg-white rounded-lg shadow p-4">
+                        <h3 class="font-semibold mb-4">Spa Activity Log</h3>
+                        <div class="space-y-4">
+                            <!-- Activity Item -->
+                            <div class="flex items-start">
+                                <div class="bg-purple-100 p-2 rounded-full mr-3">
+                                    <i class="fas fa-spa text-purple-600"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-sm"><span class="font-medium">New booking</span> for <span class="font-medium">Detox Body Wrap</span> by <span class="font-medium">Lisa Wong</span> in <span class="font-medium">Tranquility Room</span> at <span class="font-medium">12:00 PM</span></p>
+                                    <p class="text-xs text-gray-500 mt-1">15 minutes ago</p>
+                                </div>
+                                <button class="text-gray-400 hover:text-gray-600">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                            </div>
+                            
+                            <!-- Activity Item -->
+                            <div class="flex items-start">
+                                <div class="bg-yellow-100 p-2 rounded-full mr-3">
+                                    <i class="fas fa-exchange-alt text-yellow-600"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-sm"><span class="font-medium">Room change</span>: <span class="font-medium">Aromatherapy Massage</span> moved from <span class="font-medium">Harmony</span> to <span class="font-medium">Serenity Room</span> due to maintenance</p>
+                                    <p class="text-xs text-gray-500 mt-1">1 hour ago</p>
+                                </div>
+                                <button class="text-gray-400 hover:text-gray-600">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                            </div>
+                            
+                            <!-- Activity Item -->
+                            <div class="flex items-start">
+                                <div class="bg-green-100 p-2 rounded-full mr-3">
+                                    <i class="fas fa-check-circle text-green-600"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-sm"><span class="font-medium">Treatment completed</span>: <span class="font-medium">Hot Stone Massage</span> for <span class="font-medium">Sarah Johnson</span>. Rated <span class="font-medium">5 stars</span> with notes: "Excellent service!"</p>
+                                    <p class="text-xs text-gray-500 mt-1">2 hours ago</p>
+                                </div>
+                                <button class="text-gray-400 hover:text-gray-600">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                            </div>
+                            
+                            <!-- Activity Item -->
+                            <div class="flex items-start">
+                                <div class="bg-blue-100 p-2 rounded-full mr-3">
+                                    <i class="fas fa-box text-blue-600"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-sm"><span class="font-medium">Product restock</span>: <span class="font-medium">Lavender Essential Oil</span> (3 bottles) added to inventory by <span class="font-medium">James Rodriguez</span></p>
+                                    <p class="text-xs text-gray-500 mt-1">3 hours ago</p>
+                                </div>
+                                <button class="text-gray-400 hover:text-gray-600">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Room Status -->
+                    <div class="bg-white rounded-lg shadow p-4">
+                        <h3 class="font-semibold mb-4">Treatment Room Status</h3>
+                        <div class="space-y-4">
+                            <!-- Room Item -->
+                            <div class="border rounded-lg p-3">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="font-medium flex items-center">
+                                        <i class="fas fa-door-open text-purple-600 mr-2"></i>
+                                        Serenity Room
+                                    </h4>
+                                    <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Available</span>
+                                </div>
+                                <div class="text-sm text-gray-600">
+                                    <p><i class="fas fa-user-clock mr-2"></i> Next booking at 2:00 PM</p>
+                                    <p class="mt-1"><i class="fas fa-spa mr-2"></i> Equipped for: Massages</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Room Item -->
+                            <div class="border rounded-lg p-3">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="font-medium flex items-center">
+                                        <i class="fas fa-door-open text-pink-500 mr-2"></i>
+                                        Harmony Room
+                                    </h4>
+                                    <span class="text-xs bg-red-100 text-red-800 px-2 py-1 rounded">Occupied</span>
+                                </div>
+                                <div class="text-sm text-gray-600">
+                                    <p><i class="fas fa-user mr-2"></i> Current client: Michael Brown</p>
+                                    <p class="mt-1"><i class="fas fa-spa mr-2"></i> Treatment: Anti-Aging Facial</p>
+                                    <p class="mt-1"><i class="fas fa-clock mr-2"></i> Ends at: 11:30 AM</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Room Item -->
+                            <div class="border rounded-lg p-3">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="font-medium flex items-center">
+                                        <i class="fas fa-door-open text-green-500 mr-2"></i>
+                                        Tranquility Room
+                                    </h4>
+                                    <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">Preparing</span>
+                                </div>
+                                <div class="text-sm text-gray-600">
+                                    <p><i class="fas fa-user mr-2"></i> Next client: Lisa Wong</p>
+                                    <p class="mt-1"><i class="fas fa-spa mr-2"></i> Treatment: Detox Body Wrap</p>
+                                    <p class="mt-1"><i class="fas fa-clock mr-2"></i> Starts at: 12:00 PM</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6">
+                            <h4 class="text-sm font-medium mb-2">Quick Actions</h4>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button class="bg-purple-50 text-purple-700 text-sm py-2 px-3 rounded flex items-center justify-center hover:bg-purple-100">
+                                    <i class="fas fa-broom mr-1"></i> Clean Room
+                                </button>
+                                <button class="bg-green-50 text-green-700 text-sm py-2 px-3 rounded flex items-center justify-center hover:bg-green-100">
+                                    <i class="fas fa-box mr-1"></i> Restock
+                                </button>
+                                <button class="bg-blue-50 text-blue-700 text-sm py-2 px-3 rounded flex items-center justify-center hover:bg-blue-100">
+                                    <i class="fas fa-tools mr-1"></i> Maintenance
+                                </button>
+                                <button class="bg-yellow-50 text-yellow-700 text-sm py-2 px-3 rounded flex items-center justify-center hover:bg-yellow-100">
+                                    <i class="fas fa-door-closed mr-1"></i> Close Room
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Booking Modal -->
+    <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden" id="appointmentModal">
+        <div class="bg-white rounded-lg w-full max-w-md">
+            <div class="flex justify-between items-center border-b p-4">
+                <h3 class="font-semibold text-lg">New Spa Booking</h3>
+                <button class="text-gray-500 hover:text-gray-700" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="p-4">
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-medium mb-1">Client</label>
+                    <div class="relative">
+                        <select class="w-full border rounded px-3 py-2 text-sm">
+                            <option>Select client</option>
+                            <option>Sarah Johnson (VIP)</option>
+                            <option>Michael Brown</option>
+                            <option>Lisa Wong</option>
+                            <option>David Kim</option>
+                            <option>Robert & Maria Smith</option>
+                        </select>
+                        <button class="absolute right-10 top-2 text-gray-400 hover:text-purple-600">
+                            <i class="fas fa-plus-circle"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-medium mb-1">Treatment</label>
+                    <select class="w-full border rounded px-3 py-2 text-sm">
+                        <option>Select treatment</option>
+                        <option>Swedish Massage (60 min)</option>
+                        <option>Deep Tissue Massage (75 min)</option>
+                        <option>Hot Stone Massage (90 min)</option>
+                        <option>Aromatherapy Massage (60 min)</option>
+                        <option>Anti-Aging Facial (60 min)</option>
+                        <option>Detox Body Wrap (75 min)</option>
+                    </select>
+                </div>
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-gray-700 text-sm font-medium mb-1">Date</label>
+                        <input type="date" class="w-full border rounded px-3 py-2 text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 text-sm font-medium mb-1">Time</label>
+                        <input type="time" class="w-full border rounded px-3 py-2 text-sm">
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-medium mb-1">Therapist</label>
+                    <select class="w-full border rounded px-3 py-2 text-sm">
+                        <option>Emma Wilson (Lead Therapist)</option>
+                        <option>Sophia Martinez</option>
+                        <option>James Rodriguez</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-medium mb-1">Room</label>
+                    <select class="w-full border rounded px-3 py-2 text-sm">
+                        <option>Serenity Room (Massage)</option>
+                        <option>Harmony Room (Facials)</option>
+                        <option>Tranquility Room (Body Treatments)</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-medium mb-1">Special Requests</label>
+                    <textarea class="w-full border rounded px-3 py-2 text-sm" rows="3" placeholder="Allergies, preferences, etc."></textarea>
+                </div>
+            </div>
+            <div class="flex justify-end border-t p-4">
+                <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded text-sm mr-2 hover:bg-gray-300" onclick="closeModal()">
+                    Cancel
+                </button>
+                <button class="bg-purple-600 text-white px-4 py-2 rounded text-sm hover:bg-purple-700">
+                    Confirm Booking
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Modal -->
+    <div class="fixed right-4 top-16 bg-white rounded-lg shadow-lg w-80 z-50 hidden" id="notificationModal">
+        <div class="border-b p-3 flex justify-between items-center">
+            <h4 class="font-medium">Spa Notifications</h4>
+            <button class="text-gray-500 hover:text-gray-700" onclick="closeNotificationModal()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="max-h-96 overflow-y-auto">
+            <!-- Notification Item -->
+            <div class="p-3 border-b hover:bg-gray-50 cursor-pointer">
+                <div class="flex items-start">
+                    <div class="bg-purple-100 p-2 rounded-full mr-3">
+                        <i class="fas fa-spa text-purple-600"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm"><span class="font-medium">New booking</span> request for <span class="font-medium">Couples Massage</span></p>
+                        <p class="text-xs text-gray-500 mt-1">5 minutes ago</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Notification Item -->
+            <div class="p-3 border-b hover:bg-gray-50 cursor-pointer">
+                <div class="flex items-start">
+                    <div class="bg-yellow-100 p-2 rounded-full mr-3">
+                        <i class="fas fa-clock text-yellow-600"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm"><span class="font-medium">Reminder</span>: <span class="font-medium">Sarah Johnson</span> arrives in <span class="font-medium">30 mins</span></p>
+                        <p class="text-xs text-gray-500 mt-1">15 minutes ago</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Notification Item -->
+            <div class="p-3 border-b hover:bg-gray-50 cursor-pointer animated-notification">
+                <div class="flex items-start">
+                    <div class="bg-red-100 p-2 rounded-full mr-3">
+                        <i class="fas fa-exclamation-triangle text-red-600"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm"><span class="font-medium">Low stock</span>: <span class="font-medium">Lavender Oil</span> running low (2 remaining)</p>
+                        <p class="text-xs text-gray-500 mt-1">1 hour ago</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Notification Item -->
+            <div class="p-3 border-b hover:bg-gray-50 cursor-pointer">
+                <div class="flex items-start">
+                    <div class="bg-green-100 p-2 rounded-full mr-3">
+                        <i class="fas fa-star text-green-600"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm"><span class="font-medium">New review</span>: 5 stars from <span class="font-medium">Michael Brown</span></p>
+                        <p class="text-xs text-gray-500 mt-1">2 hours ago</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="p-3 text-center border-t">
+            <a href="#" class="text-purple-600 text-sm font-medium">View all notifications</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+    <script>
+        // Initialize calendar
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'timeGridDay',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                events: [
+                    {
+                        title: 'Hot Stone Massage - Sarah Johnson',
+                        start: '2023-05-15T09:00:00',
+                        end: '2023-05-15T10:30:00',
+                        className: 'treatment-massage'
+                    },
+                    {
+                        title: 'Anti-Aging Facial - Michael Brown',
+                        start: '2023-05-15T10:30:00',
+                        end: '2023-05-15T11:30:00',
+                        className: 'treatment-facial'
+                    },
+                    {
+                        title: 'Detox Body Wrap - Lisa Wong',
+                        start: '2023-05-15T12:00:00',
+                        end: '2023-05-15T13:15:00',
+                        className: 'treatment-body'
+                    },
+                    {
+                        title: 'Aromatherapy Massage - David Kim',
+                        start: '2023-05-15T14:00:00',
+                        end: '2023-05-15T15:00:00',
+                        className: 'treatment-massage'
+                    },
+                    {
+                        title: 'Couples Massage - Smiths (Waitlist)',
+                        start: '2023-05-15T16:30:00',
+                        end: '2023-05-15T17:30:00',
+                        className: 'overbooked'
+                    }
+                ],
+                eventClick: function(info) {
+                    openModal();
+                },
+                nowIndicator: true,
+                slotMinTime: '08:00:00',
+                slotMaxTime: '20:00:00',
+                slotDuration: '00:15:00',
+                slotLabelInterval: '01:00:00',
+                weekends: true,
+                dayHeaderFormat: { weekday: 'short', month: 'short', day: 'numeric' }
+            });
+            calendar.render();
+        });
+
+        // Modal functions
+        function openModal() {
+            document.getElementById('appointmentModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('appointmentModal').classList.add('hidden');
+        }
+
+        // Notification functions
+        function openNotificationModal() {
+            document.getElementById('notificationModal').classList.remove('hidden');
+        }
+
+        function closeNotificationModal() {
+            document.getElementById('notificationModal').classList.add('hidden');
+        }
+
+        // Toggle sidebar
+        document.querySelector('.fa-bars').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('-ml-64');
+        });
+
+        // Notification bell click
+        document.querySelector('.fa-bell').parentElement.addEventListener('click', function(e) {
+            e.preventDefault();
+            openNotificationModal();
+        });
+    </script>
+</body>
+</html>

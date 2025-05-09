@@ -1,0 +1,688 @@
+
+2025-05-07 23:36:42 ========== New Request ==========
+2025-05-07 23:36:42 - Script started
+2025-05-07 23:36:42 - REQUEST_URI: /online_spa_and_salon_booking/book_appointment.php?action=get_time_slots&date=2025-05-16
+2025-05-07 23:36:42 - REQUEST_METHOD: GET
+2025-05-07 23:36:42 - CONTENT_TYPE: not set
+2025-05-07 23:36:42 - GET params: Array
+(
+    [action] => get_time_slots
+    [date] => 2025-05-16
+)
+
+2025-05-07 23:36:42 - POST params: Array
+(
+)
+
+2025-05-07 23:36:42 - Raw input length: 0
+2025-05-07 23:36:42 - Action from GET: get_time_slots
+2025-05-07 23:36:42 - Final action determined: 'get_time_slots'
+2025-05-07 23:36:42 - Connected to database
+2025-05-07 23:36:42 - Loaded service_utils.php
+2025-05-07 23:36:42 - Processing action: 'get_time_slots'
+
+2025-05-07 23:36:46 ========== New Request ==========
+2025-05-07 23:36:46 - Script started
+2025-05-07 23:36:46 - REQUEST_URI: /online_spa_and_salon_booking/book_appointment.php?action=get_stylists&date=2025-05-16&service_id=1
+2025-05-07 23:36:46 - REQUEST_METHOD: GET
+2025-05-07 23:36:46 - CONTENT_TYPE: not set
+2025-05-07 23:36:46 - GET params: Array
+(
+    [action] => get_stylists
+    [date] => 2025-05-16
+    [service_id] => 1
+)
+
+2025-05-07 23:36:46 - POST params: Array
+(
+)
+
+2025-05-07 23:36:46 - Raw input length: 0
+2025-05-07 23:36:46 - Action from GET: get_stylists
+2025-05-07 23:36:46 - Final action determined: 'get_stylists'
+2025-05-07 23:36:46 - Connected to database
+2025-05-07 23:36:46 - Loaded service_utils.php
+2025-05-07 23:36:46 - Processing action: 'get_stylists'
+
+2025-05-07 23:36:56 ========== New Request ==========
+2025-05-07 23:36:56 - Script started
+2025-05-07 23:36:56 - REQUEST_URI: /online_spa_and_salon_booking/book_appointment.php?action=create_appointment
+2025-05-07 23:36:56 - REQUEST_METHOD: POST
+2025-05-07 23:36:56 - CONTENT_TYPE: application/x-www-form-urlencoded
+2025-05-07 23:36:56 - GET params: Array
+(
+    [action] => create_appointment
+)
+
+2025-05-07 23:36:56 - POST params: Array
+(
+    [service_id] => 1
+    [stylist_id] => 3
+    [appointment_date] => 2025-05-16
+    [start_time] => 13:30:00
+)
+
+2025-05-07 23:36:56 - Raw input length: 77
+2025-05-07 23:36:56 - Raw input: service_id=1&stylist_id=3&appointment_date=2025-05-16&start_time=13%3A30%3A00
+2025-05-07 23:36:56 - Action from GET: create_appointment
+2025-05-07 23:36:56 - Final action determined: 'create_appointment'
+2025-05-07 23:36:56 - Connected to database
+2025-05-07 23:36:56 - Loaded service_utils.php
+2025-05-07 23:36:56 - Processing action: 'create_appointment'
+2025-05-07 23:36:56 - Calling handleCreateAppointment()
+
+2025-05-07 23:36:56 ========== New Appointment Creation ==========
+2025-05-07 23:36:56 - Content-Type: application/x-www-form-urlencoded
+2025-05-07 23:36:56 - Request Method: POST
+2025-05-07 23:36:56 - POST data: Array
+(
+    [service_id] => 1
+    [stylist_id] => 3
+    [appointment_date] => 2025-05-16
+    [start_time] => 13:30:00
+)
+
+2025-05-07 23:36:56 - GET data: Array
+(
+    [action] => create_appointment
+)
+
+2025-05-07 23:36:56 - Raw input: service_id=1&stylist_id=3&appointment_date=2025-05-16&start_time=13%3A30%3A00
+2025-05-07 23:36:56 - Using POST data
+2025-05-07 23:36:56 - Final data for processing: Array
+(
+    [service_id] => 1
+    [stylist_id] => 3
+    [appointment_date] => 2025-05-16
+    [start_time] => 13:30:00
+)
+
+2025-05-07 23:36:56 - Using parameters: service=1, stylist=3, date=2025-05-16, time=13:30:00
+2025-05-07 23:36:56 - Started database transaction
+2025-05-07 23:36:56 - Notification result: Array
+(
+    [database_notification] => 1
+    [email_sent] => 1
+)
+
+2025-05-07 23:36:56 - Committed database transaction
+2025-05-07 23:36:56 - Successfully created appointment ID: 40
+2025-05-07 23:36:56 - Sending success response: {"success":true,"message":"Appointment booked successfully!","appointment_id":"40"}
+2025-05-07 23:36:56 - handleCreateAppointment() finished
+
+2025-05-08 00:14:18 ========== New Request ==========
+2025-05-08 00:14:18 - Script started
+2025-05-08 00:14:18 - REQUEST_URI: /online_spa_and_salon_booking/book_appointment.php?action=get_time_slots&date=2025-05-16
+2025-05-08 00:14:18 - REQUEST_METHOD: GET
+2025-05-08 00:14:18 - CONTENT_TYPE: not set
+2025-05-08 00:14:18 - GET params: Array
+(
+    [action] => get_time_slots
+    [date] => 2025-05-16
+)
+
+2025-05-08 00:14:18 - POST params: Array
+(
+)
+
+2025-05-08 00:14:18 - Raw input length: 0
+2025-05-08 00:14:18 - Action from GET: get_time_slots
+2025-05-08 00:14:18 - Final action determined: 'get_time_slots'
+2025-05-08 00:14:18 - Connected to database
+2025-05-08 00:14:18 - Loaded service_utils.php
+2025-05-08 00:14:18 - Processing action: 'get_time_slots'
+
+2025-05-08 00:14:20 ========== New Request ==========
+2025-05-08 00:14:20 - Script started
+2025-05-08 00:14:20 - REQUEST_URI: /online_spa_and_salon_booking/book_appointment.php?action=get_stylists&date=2025-05-16&service_id=1
+2025-05-08 00:14:20 - REQUEST_METHOD: GET
+2025-05-08 00:14:20 - CONTENT_TYPE: not set
+2025-05-08 00:14:20 - GET params: Array
+(
+    [action] => get_stylists
+    [date] => 2025-05-16
+    [service_id] => 1
+)
+
+2025-05-08 00:14:20 - POST params: Array
+(
+)
+
+2025-05-08 00:14:20 - Raw input length: 0
+2025-05-08 00:14:20 - Action from GET: get_stylists
+2025-05-08 00:14:20 - Final action determined: 'get_stylists'
+2025-05-08 00:14:20 - Connected to database
+2025-05-08 00:14:20 - Loaded service_utils.php
+2025-05-08 00:14:20 - Processing action: 'get_stylists'
+
+2025-05-08 00:14:23 ========== New Request ==========
+2025-05-08 00:14:23 - Script started
+2025-05-08 00:14:23 - REQUEST_URI: /online_spa_and_salon_booking/book_appointment.php?action=create_appointment
+2025-05-08 00:14:23 - REQUEST_METHOD: POST
+2025-05-08 00:14:23 - CONTENT_TYPE: application/x-www-form-urlencoded
+2025-05-08 00:14:23 - GET params: Array
+(
+    [action] => create_appointment
+)
+
+2025-05-08 00:14:23 - POST params: Array
+(
+    [service_id] => 1
+    [stylist_id] => 2
+    [appointment_date] => 2025-05-16
+    [start_time] => 13:30:00
+)
+
+2025-05-08 00:14:23 - Raw input length: 77
+2025-05-08 00:14:23 - Raw input: service_id=1&stylist_id=2&appointment_date=2025-05-16&start_time=13%3A30%3A00
+2025-05-08 00:14:23 - Action from GET: create_appointment
+2025-05-08 00:14:23 - Final action determined: 'create_appointment'
+2025-05-08 00:14:23 - Connected to database
+2025-05-08 00:14:23 - Loaded service_utils.php
+2025-05-08 00:14:23 - Processing action: 'create_appointment'
+2025-05-08 00:14:23 - Calling handleCreateAppointment()
+
+2025-05-08 00:14:23 ========== New Appointment Creation ==========
+2025-05-08 00:14:23 - Content-Type: application/x-www-form-urlencoded
+2025-05-08 00:14:23 - Request Method: POST
+2025-05-08 00:14:23 - POST data: Array
+(
+    [service_id] => 1
+    [stylist_id] => 2
+    [appointment_date] => 2025-05-16
+    [start_time] => 13:30:00
+)
+
+2025-05-08 00:14:23 - GET data: Array
+(
+    [action] => create_appointment
+)
+
+2025-05-08 00:14:23 - Raw input: service_id=1&stylist_id=2&appointment_date=2025-05-16&start_time=13%3A30%3A00
+2025-05-08 00:14:23 - Using POST data
+2025-05-08 00:14:23 - Final data for processing: Array
+(
+    [service_id] => 1
+    [stylist_id] => 2
+    [appointment_date] => 2025-05-16
+    [start_time] => 13:30:00
+)
+
+2025-05-08 00:14:23 - Using parameters: service=1, stylist=2, date=2025-05-16, time=13:30:00
+2025-05-08 00:14:23 - Started database transaction
+2025-05-08 00:14:23 - Notification result: Array
+(
+    [database_notification] => 1
+    [email_sent] => 1
+)
+
+2025-05-08 00:14:23 - Committed database transaction
+2025-05-08 00:14:23 - Successfully created appointment ID: 42
+2025-05-08 00:14:23 - Sending success response: {"success":true,"message":"Appointment booked successfully!","appointment_id":"42"}
+2025-05-08 00:14:23 - handleCreateAppointment() finished
+
+2025-05-08 19:25:35 ========== New Request ==========
+2025-05-08 19:25:35 - Script started
+2025-05-08 19:25:35 - REQUEST_URI: /online_spa_and_salon_booking2/book_appointment.php?action=get_time_slots&date=2025-05-10
+2025-05-08 19:25:35 - REQUEST_METHOD: GET
+2025-05-08 19:25:35 - CONTENT_TYPE: not set
+2025-05-08 19:25:35 - GET params: Array
+(
+    [action] => get_time_slots
+    [date] => 2025-05-10
+)
+
+2025-05-08 19:25:35 - POST params: Array
+(
+)
+
+2025-05-08 19:25:35 - Raw input length: 0
+2025-05-08 19:25:35 - Action from GET: get_time_slots
+2025-05-08 19:25:35 - Final action determined: 'get_time_slots'
+2025-05-08 19:25:35 - Connected to database
+2025-05-08 19:25:35 - Loaded service_utils.php
+2025-05-08 19:25:35 - Processing action: 'get_time_slots'
+
+2025-05-08 19:25:37 ========== New Request ==========
+2025-05-08 19:25:37 - Script started
+2025-05-08 19:25:37 - REQUEST_URI: /online_spa_and_salon_booking2/book_appointment.php?action=get_stylists&date=2025-05-10&service_id=2
+2025-05-08 19:25:37 - REQUEST_METHOD: GET
+2025-05-08 19:25:37 - CONTENT_TYPE: not set
+2025-05-08 19:25:37 - GET params: Array
+(
+    [action] => get_stylists
+    [date] => 2025-05-10
+    [service_id] => 2
+)
+
+2025-05-08 19:25:37 - POST params: Array
+(
+)
+
+2025-05-08 19:25:37 - Raw input length: 0
+2025-05-08 19:25:37 - Action from GET: get_stylists
+2025-05-08 19:25:37 - Final action determined: 'get_stylists'
+2025-05-08 19:25:37 - Connected to database
+2025-05-08 19:25:37 - Loaded service_utils.php
+2025-05-08 19:25:37 - Processing action: 'get_stylists'
+
+2025-05-08 19:25:40 ========== New Request ==========
+2025-05-08 19:25:40 - Script started
+2025-05-08 19:25:40 - REQUEST_URI: /online_spa_and_salon_booking2/book_appointment.php?action=create_appointment
+2025-05-08 19:25:40 - REQUEST_METHOD: POST
+2025-05-08 19:25:40 - CONTENT_TYPE: application/x-www-form-urlencoded
+2025-05-08 19:25:40 - GET params: Array
+(
+    [action] => create_appointment
+)
+
+2025-05-08 19:25:40 - POST params: Array
+(
+    [service_id] => 2
+    [stylist_id] => 4
+    [appointment_date] => 2025-05-10
+    [start_time] => 13:30:00
+)
+
+2025-05-08 19:25:40 - Raw input length: 77
+2025-05-08 19:25:40 - Raw input: service_id=2&stylist_id=4&appointment_date=2025-05-10&start_time=13%3A30%3A00
+2025-05-08 19:25:40 - Action from GET: create_appointment
+2025-05-08 19:25:40 - Final action determined: 'create_appointment'
+2025-05-08 19:25:41 - Connected to database
+2025-05-08 19:25:41 - Loaded service_utils.php
+2025-05-08 19:25:41 - Processing action: 'create_appointment'
+2025-05-08 19:25:41 - Calling handleCreateAppointment()
+
+2025-05-08 19:25:41 ========== New Appointment Creation ==========
+2025-05-08 19:25:41 - Content-Type: application/x-www-form-urlencoded
+2025-05-08 19:25:41 - Request Method: POST
+2025-05-08 19:25:41 - POST data: Array
+(
+    [service_id] => 2
+    [stylist_id] => 4
+    [appointment_date] => 2025-05-10
+    [start_time] => 13:30:00
+)
+
+2025-05-08 19:25:41 - GET data: Array
+(
+    [action] => create_appointment
+)
+
+2025-05-08 19:25:41 - Raw input: service_id=2&stylist_id=4&appointment_date=2025-05-10&start_time=13%3A30%3A00
+2025-05-08 19:25:41 - Using POST data
+2025-05-08 19:25:41 - Final data for processing: Array
+(
+    [service_id] => 2
+    [stylist_id] => 4
+    [appointment_date] => 2025-05-10
+    [start_time] => 13:30:00
+)
+
+2025-05-08 19:25:41 - Using parameters: service=2, stylist=4, date=2025-05-10, time=13:30:00
+2025-05-08 19:25:41 - Started database transaction
+2025-05-08 19:25:41 - Notification result: Array
+(
+    [database_notification] => 1
+    [email_sent] => 1
+)
+
+2025-05-08 19:25:41 - Committed database transaction
+2025-05-08 19:25:41 - Successfully created appointment ID: 43
+2025-05-08 19:25:41 - Sending success response: {"success":true,"message":"Appointment booked successfully!","appointment_id":"43"}
+2025-05-08 19:25:41 - handleCreateAppointment() finished
+
+2025-05-09 00:53:12 ========== New Request ==========
+2025-05-09 00:53:12 - Script started
+2025-05-09 00:53:12 - REQUEST_URI: /online_spa_and_salon_booking2/book_appointment.php?action=get_time_slots&date=2025-05-09
+2025-05-09 00:53:12 - REQUEST_METHOD: GET
+2025-05-09 00:53:12 - CONTENT_TYPE: not set
+2025-05-09 00:53:12 - GET params: Array
+(
+    [action] => get_time_slots
+    [date] => 2025-05-09
+)
+
+2025-05-09 00:53:12 - POST params: Array
+(
+)
+
+2025-05-09 00:53:12 - Raw input length: 0
+2025-05-09 00:53:12 - Action from GET: get_time_slots
+2025-05-09 00:53:12 - Final action determined: 'get_time_slots'
+2025-05-09 00:53:12 - Connected to database
+2025-05-09 00:53:12 - Loaded service_utils.php
+2025-05-09 00:53:12 - Processing action: 'get_time_slots'
+
+2025-05-09 00:53:13 ========== New Request ==========
+2025-05-09 00:53:13 - Script started
+2025-05-09 00:53:13 - REQUEST_URI: /online_spa_and_salon_booking2/book_appointment.php?action=get_stylists&date=2025-05-09&service_id=6
+2025-05-09 00:53:13 - REQUEST_METHOD: GET
+2025-05-09 00:53:13 - CONTENT_TYPE: not set
+2025-05-09 00:53:13 - GET params: Array
+(
+    [action] => get_stylists
+    [date] => 2025-05-09
+    [service_id] => 6
+)
+
+2025-05-09 00:53:13 - POST params: Array
+(
+)
+
+2025-05-09 00:53:13 - Raw input length: 0
+2025-05-09 00:53:13 - Action from GET: get_stylists
+2025-05-09 00:53:13 - Final action determined: 'get_stylists'
+2025-05-09 00:53:13 - Connected to database
+2025-05-09 00:53:13 - Loaded service_utils.php
+2025-05-09 00:53:13 - Processing action: 'get_stylists'
+
+2025-05-09 00:53:17 ========== New Request ==========
+2025-05-09 00:53:17 - Script started
+2025-05-09 00:53:17 - REQUEST_URI: /online_spa_and_salon_booking2/book_appointment.php?action=create_appointment
+2025-05-09 00:53:17 - REQUEST_METHOD: POST
+2025-05-09 00:53:17 - CONTENT_TYPE: application/x-www-form-urlencoded
+2025-05-09 00:53:17 - GET params: Array
+(
+    [action] => create_appointment
+)
+
+2025-05-09 00:53:17 - POST params: Array
+(
+    [service_id] => 6
+    [stylist_id] => 2
+    [appointment_date] => 2025-05-09
+    [start_time] => 15:00:00
+)
+
+2025-05-09 00:53:17 - Raw input length: 77
+2025-05-09 00:53:17 - Raw input: service_id=6&stylist_id=2&appointment_date=2025-05-09&start_time=15%3A00%3A00
+2025-05-09 00:53:17 - Action from GET: create_appointment
+2025-05-09 00:53:17 - Final action determined: 'create_appointment'
+2025-05-09 00:53:17 - Connected to database
+2025-05-09 00:53:17 - Loaded service_utils.php
+2025-05-09 00:53:17 - Processing action: 'create_appointment'
+2025-05-09 00:53:17 - Calling handleCreateAppointment()
+
+2025-05-09 00:53:17 ========== New Appointment Creation ==========
+2025-05-09 00:53:17 - Content-Type: application/x-www-form-urlencoded
+2025-05-09 00:53:17 - Request Method: POST
+2025-05-09 00:53:17 - POST data: Array
+(
+    [service_id] => 6
+    [stylist_id] => 2
+    [appointment_date] => 2025-05-09
+    [start_time] => 15:00:00
+)
+
+2025-05-09 00:53:17 - GET data: Array
+(
+    [action] => create_appointment
+)
+
+2025-05-09 00:53:17 - Raw input: service_id=6&stylist_id=2&appointment_date=2025-05-09&start_time=15%3A00%3A00
+2025-05-09 00:53:17 - Using POST data
+2025-05-09 00:53:17 - Final data for processing: Array
+(
+    [service_id] => 6
+    [stylist_id] => 2
+    [appointment_date] => 2025-05-09
+    [start_time] => 15:00:00
+)
+
+2025-05-09 00:53:17 - Using parameters: service=6, stylist=2, date=2025-05-09, time=15:00:00
+2025-05-09 00:53:17 - Started database transaction
+2025-05-09 00:53:17 - Notification result: Array
+(
+    [database_notification] => 1
+    [email_sent] => 1
+)
+
+2025-05-09 00:53:17 - Committed database transaction
+2025-05-09 00:53:17 - Successfully created appointment ID: 44
+2025-05-09 00:53:17 - Sending success response: {"success":true,"message":"Appointment booked successfully!","appointment_id":"44"}
+2025-05-09 00:53:17 - handleCreateAppointment() finished
+
+2025-05-09 01:00:30 ========== New Request ==========
+2025-05-09 01:00:30 - Script started
+2025-05-09 01:00:30 - REQUEST_URI: /online_spa_and_salon_booking2/book_appointment.php?action=get_time_slots&date=2025-05-16
+2025-05-09 01:00:30 - REQUEST_METHOD: GET
+2025-05-09 01:00:30 - CONTENT_TYPE: not set
+2025-05-09 01:00:30 - GET params: Array
+(
+    [action] => get_time_slots
+    [date] => 2025-05-16
+)
+
+2025-05-09 01:00:30 - POST params: Array
+(
+)
+
+2025-05-09 01:00:30 - Raw input length: 0
+2025-05-09 01:00:30 - Action from GET: get_time_slots
+2025-05-09 01:00:30 - Final action determined: 'get_time_slots'
+2025-05-09 01:00:30 - Connected to database
+2025-05-09 01:00:30 - Loaded service_utils.php
+2025-05-09 01:00:30 - Processing action: 'get_time_slots'
+
+2025-05-09 01:01:29 ========== New Request ==========
+2025-05-09 01:01:29 - Script started
+2025-05-09 01:01:29 - REQUEST_URI: /online_spa_and_salon_booking2/book_appointment.php?action=get_time_slots&date=2025-05-17
+2025-05-09 01:01:29 - REQUEST_METHOD: GET
+2025-05-09 01:01:29 - CONTENT_TYPE: not set
+2025-05-09 01:01:29 - GET params: Array
+(
+    [action] => get_time_slots
+    [date] => 2025-05-17
+)
+
+2025-05-09 01:01:29 - POST params: Array
+(
+)
+
+2025-05-09 01:01:29 - Raw input length: 0
+2025-05-09 01:01:29 - Action from GET: get_time_slots
+2025-05-09 01:01:29 - Final action determined: 'get_time_slots'
+2025-05-09 01:01:30 - Connected to database
+2025-05-09 01:01:30 - Loaded service_utils.php
+2025-05-09 01:01:30 - Processing action: 'get_time_slots'
+
+2025-05-09 01:01:31 ========== New Request ==========
+2025-05-09 01:01:31 - Script started
+2025-05-09 01:01:31 - REQUEST_URI: /online_spa_and_salon_booking2/book_appointment.php?action=get_stylists&date=2025-05-17&service_id=3
+2025-05-09 01:01:31 - REQUEST_METHOD: GET
+2025-05-09 01:01:31 - CONTENT_TYPE: not set
+2025-05-09 01:01:31 - GET params: Array
+(
+    [action] => get_stylists
+    [date] => 2025-05-17
+    [service_id] => 3
+)
+
+2025-05-09 01:01:31 - POST params: Array
+(
+)
+
+2025-05-09 01:01:31 - Raw input length: 0
+2025-05-09 01:01:31 - Action from GET: get_stylists
+2025-05-09 01:01:31 - Final action determined: 'get_stylists'
+2025-05-09 01:01:31 - Connected to database
+2025-05-09 01:01:31 - Loaded service_utils.php
+2025-05-09 01:01:31 - Processing action: 'get_stylists'
+
+2025-05-09 01:01:35 ========== New Request ==========
+2025-05-09 01:01:35 - Script started
+2025-05-09 01:01:35 - REQUEST_URI: /online_spa_and_salon_booking2/book_appointment.php?action=create_appointment
+2025-05-09 01:01:35 - REQUEST_METHOD: POST
+2025-05-09 01:01:35 - CONTENT_TYPE: application/x-www-form-urlencoded
+2025-05-09 01:01:35 - GET params: Array
+(
+    [action] => create_appointment
+)
+
+2025-05-09 01:01:35 - POST params: Array
+(
+    [service_id] => 3
+    [stylist_id] => 1
+    [appointment_date] => 2025-05-17
+    [start_time] => 13:30:00
+)
+
+2025-05-09 01:01:35 - Raw input length: 77
+2025-05-09 01:01:35 - Raw input: service_id=3&stylist_id=1&appointment_date=2025-05-17&start_time=13%3A30%3A00
+2025-05-09 01:01:35 - Action from GET: create_appointment
+2025-05-09 01:01:35 - Final action determined: 'create_appointment'
+2025-05-09 01:01:35 - Connected to database
+2025-05-09 01:01:35 - Loaded service_utils.php
+2025-05-09 01:01:35 - Processing action: 'create_appointment'
+2025-05-09 01:01:35 - Calling handleCreateAppointment()
+
+2025-05-09 01:01:35 ========== New Appointment Creation ==========
+2025-05-09 01:01:35 - Content-Type: application/x-www-form-urlencoded
+2025-05-09 01:01:35 - Request Method: POST
+2025-05-09 01:01:35 - POST data: Array
+(
+    [service_id] => 3
+    [stylist_id] => 1
+    [appointment_date] => 2025-05-17
+    [start_time] => 13:30:00
+)
+
+2025-05-09 01:01:35 - GET data: Array
+(
+    [action] => create_appointment
+)
+
+2025-05-09 01:01:35 - Raw input: service_id=3&stylist_id=1&appointment_date=2025-05-17&start_time=13%3A30%3A00
+2025-05-09 01:01:35 - Using POST data
+2025-05-09 01:01:35 - Final data for processing: Array
+(
+    [service_id] => 3
+    [stylist_id] => 1
+    [appointment_date] => 2025-05-17
+    [start_time] => 13:30:00
+)
+
+2025-05-09 01:01:35 - Using parameters: service=3, stylist=1, date=2025-05-17, time=13:30:00
+2025-05-09 01:01:35 - Started database transaction
+2025-05-09 01:01:35 - Notification result: Array
+(
+    [database_notification] => 1
+    [email_sent] => 1
+)
+
+2025-05-09 01:01:35 - Committed database transaction
+2025-05-09 01:01:35 - Successfully created appointment ID: 45
+2025-05-09 01:01:35 - Sending success response: {"success":true,"message":"Appointment booked successfully!","appointment_id":"45"}
+2025-05-09 01:01:35 - handleCreateAppointment() finished
+
+2025-05-09 01:27:15 ========== New Request ==========
+2025-05-09 01:27:15 - Script started
+2025-05-09 01:27:15 - REQUEST_URI: /online_spa_and_salon_booking2/book_appointment.php?action=get_time_slots&date=2025-05-10
+2025-05-09 01:27:15 - REQUEST_METHOD: GET
+2025-05-09 01:27:15 - CONTENT_TYPE: not set
+2025-05-09 01:27:15 - GET params: Array
+(
+    [action] => get_time_slots
+    [date] => 2025-05-10
+)
+
+2025-05-09 01:27:15 - POST params: Array
+(
+)
+
+2025-05-09 01:27:15 - Raw input length: 0
+2025-05-09 01:27:15 - Action from GET: get_time_slots
+2025-05-09 01:27:15 - Final action determined: 'get_time_slots'
+2025-05-09 01:27:15 - Connected to database
+2025-05-09 01:27:15 - Loaded service_utils.php
+2025-05-09 01:27:15 - Processing action: 'get_time_slots'
+
+2025-05-09 01:27:17 ========== New Request ==========
+2025-05-09 01:27:17 - Script started
+2025-05-09 01:27:17 - REQUEST_URI: /online_spa_and_salon_booking2/book_appointment.php?action=get_stylists&date=2025-05-10&service_id=3
+2025-05-09 01:27:17 - REQUEST_METHOD: GET
+2025-05-09 01:27:17 - CONTENT_TYPE: not set
+2025-05-09 01:27:17 - GET params: Array
+(
+    [action] => get_stylists
+    [date] => 2025-05-10
+    [service_id] => 3
+)
+
+2025-05-09 01:27:17 - POST params: Array
+(
+)
+
+2025-05-09 01:27:17 - Raw input length: 0
+2025-05-09 01:27:17 - Action from GET: get_stylists
+2025-05-09 01:27:17 - Final action determined: 'get_stylists'
+2025-05-09 01:27:17 - Connected to database
+2025-05-09 01:27:17 - Loaded service_utils.php
+2025-05-09 01:27:17 - Processing action: 'get_stylists'
+
+2025-05-09 01:27:20 ========== New Request ==========
+2025-05-09 01:27:20 - Script started
+2025-05-09 01:27:20 - REQUEST_URI: /online_spa_and_salon_booking2/book_appointment.php?action=create_appointment
+2025-05-09 01:27:20 - REQUEST_METHOD: POST
+2025-05-09 01:27:20 - CONTENT_TYPE: application/x-www-form-urlencoded
+2025-05-09 01:27:20 - GET params: Array
+(
+    [action] => create_appointment
+)
+
+2025-05-09 01:27:20 - POST params: Array
+(
+    [service_id] => 3
+    [stylist_id] => 1
+    [appointment_date] => 2025-05-10
+    [start_time] => 16:00:00
+)
+
+2025-05-09 01:27:20 - Raw input length: 77
+2025-05-09 01:27:20 - Raw input: service_id=3&stylist_id=1&appointment_date=2025-05-10&start_time=16%3A00%3A00
+2025-05-09 01:27:20 - Action from GET: create_appointment
+2025-05-09 01:27:20 - Final action determined: 'create_appointment'
+2025-05-09 01:27:20 - Connected to database
+2025-05-09 01:27:20 - Loaded service_utils.php
+2025-05-09 01:27:20 - Processing action: 'create_appointment'
+2025-05-09 01:27:20 - Calling handleCreateAppointment()
+
+2025-05-09 01:27:20 ========== New Appointment Creation ==========
+2025-05-09 01:27:20 - Content-Type: application/x-www-form-urlencoded
+2025-05-09 01:27:20 - Request Method: POST
+2025-05-09 01:27:20 - POST data: Array
+(
+    [service_id] => 3
+    [stylist_id] => 1
+    [appointment_date] => 2025-05-10
+    [start_time] => 16:00:00
+)
+
+2025-05-09 01:27:20 - GET data: Array
+(
+    [action] => create_appointment
+)
+
+2025-05-09 01:27:20 - Raw input: service_id=3&stylist_id=1&appointment_date=2025-05-10&start_time=16%3A00%3A00
+2025-05-09 01:27:20 - Using POST data
+2025-05-09 01:27:20 - Final data for processing: Array
+(
+    [service_id] => 3
+    [stylist_id] => 1
+    [appointment_date] => 2025-05-10
+    [start_time] => 16:00:00
+)
+
+2025-05-09 01:27:20 - Using parameters: service=3, stylist=1, date=2025-05-10, time=16:00:00
+2025-05-09 01:27:20 - Started database transaction
+2025-05-09 01:27:20 - Notification result: Array
+(
+    [database_notification] => 1
+    [email_sent] => 1
+)
+
+2025-05-09 01:27:20 - Committed database transaction
+2025-05-09 01:27:20 - Successfully created appointment ID: 46
+2025-05-09 01:27:20 - Sending success response: {"success":true,"message":"Appointment booked successfully!","appointment_id":"46"}
+2025-05-09 01:27:20 - handleCreateAppointment() finished

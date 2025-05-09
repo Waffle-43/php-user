@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glamour Haven - Salon & Spa Booking</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#9F7AEA',
+                        secondary: '#F687B3',
+                        dark: '#2D3748',
+                        light: '#F7FAFC',
+                        accent: '#F6AD55'
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #FFF5F5;
+        }
+        
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)), url('https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-item.active {
+            border-bottom: 3px solid #9F7AEA;
+        }
+        
+        .mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        
+        .mobile-menu.open {
+            max-height: 500px;
+        }
+        
+        .stylist-card:hover img {
+            transform: scale(1.05);
+        }
+        
+        .stylist-card img {
+            transition: transform 0.3s ease;
+        }
+        
+        .booking-step {
+            position: relative;
+        }
+        
+        .booking-step:not(:last-child):after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -2rem;
+            width: 4rem;
+            height: 2px;
+            background-color: #9F7AEA;
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <!-- Logo -->
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-spa text-primary text-2xl"></i>
+                <span class="text-xl font-bold text-dark">Glamour Haven</span>
+            </div>
+            
+            <!-- Desktop Navigation - Including all 3 modules -->
+            <nav class="hidden md:flex space-x-6">
+                <a href="#" class="nav-item active text-primary font-medium py-2">Home</a>
+                <a href="#services" class="nav-item text-gray-600 hover:text-primary font-medium py-2">Services</a>
+                <a href="#stylists" class="nav-item text-gray-600 hover:text-primary font-medium py-2">Our Stylists</a>
+                <a href="#booking" class="nav-item text-gray-600 hover:text-primary font-medium py-2">Book Now</a>
+                
+                <!-- Module Navigation -->
+                <div class="relative group ml-4">
+                    <button class="flex items-center space-x-1 text-gray-600 hover:text-primary font-medium py-2">
+                        <span>Modules</span>
+                        <i class="fas fa-chevron-down text-xs"></i>
+                    </button>
+                    <div class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 hidden group-hover:block">
+                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-users mr-2 text-secondary"></i> User Management
+                        </a>
+                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-concierge-bell mr-2 text-accent"></i> Service Catalogue
+                        </a>
+                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-calendar-check mr-2 text-primary"></i> Appointment Booking
+                        </a>
+                    </div>
+                </div>
+            </nav>
+            
+            <!-- User Actions -->
+            <div class="flex items-center space-x-4">
+                <button class="md:hidden text-gray-600" id="mobile-menu-button">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+                <div class="hidden md:flex items-center space-x-2">
+                    <button class="text-gray-600 hover:text-primary relative">
+                        <i class="fas fa-bell text-xl"></i>
+                        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">2</span>
+                    </button>
+                    <div class="relative group">
+                        <button class="flex items-center space-x-2">
+                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" class="w-8 h-8 rounded-full">
+                            <span class="text-gray-700 font-medium">Sarah</span>
+                            <i class="fas fa-chevron-down text-xs text-gray-500"></i>
+                        </button>
+                        <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 hidden group-hover:block">
+                            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">My Profile</a>
+                            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">My Appointments</a>
+                            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Logout</a>
+                        </div>
+                    </div>
+                </div>
+                <button class="hidden md:block bg-primary text-white px-4 py-2 rounded-md hover:bg-purple-700 transition">
+                    <i class="fas fa-calendar-day mr-2"></i> Book Now
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div class="mobile-menu bg-white md:hidden" id="mobile-menu">
+            <div class="container mx-auto px-4 py-2 flex flex-col space-y-2">
+                <a href="#" class="nav-item active text-primary font-medium py-2">Home</a>
+                <a href="#services" class="nav-item text-gray-600 hover:text-primary font-medium py-2">Services</a>
+                <a href="#stylists" class="nav-item text-gray-600 hover:text-primary font-medium py-2">Our Stylists</a>
+                <a href="#booking" class="nav-item text-gray-600 hover:text-primary font-medium py-2">Book Now</a>
+                
+                <!-- Module Navigation Mobile -->
+                <div class="pt-2 border-t border-gray-200">
+                    <p class="text-gray-500 text-sm font-medium py-2">MODULES</p>
+                    <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded">
+                        <i class="fas fa-users mr-2 text-secondary"></i> User Management
+                    </a>
+                    <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded">
+                        <i class="fas fa-concierge-bell mr-2 text-accent"></i> Service Catalogue
+                    </a>
+                    <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded">
+                        <i class="fas fa-calendar-check mr-2 text-primary"></i> Appointment Booking
+                    </a>
+                </div>
+                
+                <div class="pt-2 border-t border-gray-200">
+                    <button class="w-full bg-primary text-white px-4 py-2 rounded-md hover:bg-purple-700 transition mb-2">
+                        <i class="fas fa-calendar-day mr-2"></i> Book Now
+                    </button>
+                    <div class="flex items-center space-x-3 py-2">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" class="w-8 h-8 rounded-full">
+                        <div>
+                            <p class="font-medium">Sarah Johnson</p>
+                            <p class="text-xs text-gray-500">Member since 2022</p>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 py-2">
+                        <a href="#" class="text-gray-600 hover:text-primary text-sm"><i class="fas fa-user mr-2"></i> Profile</a>
+                        <a href="#" class="text-gray-600 hover:text-primary text-sm"><i class="fas fa-calendar mr-2"></i> Appointments</a>
+                        <a href="#" class="text-gray-600 hover:text-primary text-sm"><i class="fas fa-cog mr-2"></i> Settings</a>
+                        <a href="#" class="text-gray-600 hover:text-primary text-sm"><i class="fas fa-sign-out-alt mr-2"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section text-white py-20 md:py-32">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4">Discover Your Perfect Glow</h1>
+            <p class="text-xl md:text-2xl mb-8 max-w-2xl mx-auto">Premium salon & spa services tailored just for you. Book instantly online.</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#booking" class="bg-primary hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-full transition">
+                    Book Now <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+                <a href="#services" class="bg-white hover:bg-gray-100 text-primary font-bold py-3 px-8 rounded-full transition">
+                    Explore Services
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Steps -->
+    <section class="bg-white py-12">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center text-dark mb-12">How It Works</h2>
+            <div class="flex flex-col md:flex-row justify-center items-center gap-8 md:gap-16">
+                <div class="booking-step flex flex-col items-center text-center max-w-xs">
+                    <div class="bg-primary bg-opacity-10 p-4 rounded-full mb-4">
+                        <i class="fas fa-search text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">1. Choose Your Service</h3>
+                    <p class="text-gray-600">Browse our extensive menu of salon and spa treatments</p>
+                </div>
+                
+                <div class="booking-step flex flex-col items-center text-center max-w-xs">
+                    <div class="bg-primary bg-opacity-10 p-4 rounded-full mb-4">
+                        <i class="fas fa-user-friends text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">2. Select Your Stylist</h3>
+                    <p class="text-gray-600">Pick from our team of certified beauty professionals</p>
+                </div>
+                
+                <div class="booking-step flex flex-col items-center text-center max-w-xs">
+                    <div class="bg-primary bg-opacity-10 p-4 rounded-full mb-4">
+                        <i class="fas fa-calendar-check text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">3. Book Your Slot</h3>
+                    <p class="text-gray-600">Reserve your preferred date and time instantly</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-16 bg-light">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-3xl font-bold text-dark">Our Services</h2>
+                <a href="#" class="text-primary font-medium flex items-center">
+                    View All Services <i class="fas fa-chevron-right ml-2"></i>
+                </a>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Service Card 1 -->
+                <div class="service-card bg-white rounded-xl overflow-hidden shadow-md transition">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1599351431404-4336f40a1abc?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" 
+                             alt="Hair Styling" class="w-full h-full object-cover">
+                        <div class="absolute bottom-0 left-0 bg-primary text-white px-3 py-1 text-sm font-medium">
+                            <i class="fas fa-clock mr-1"></i> 60-90 mins
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="text-xl font-bold">Hair Styling</h3>
+                            <span class="text-lg font-bold text-primary">$45+</span>
+                        </div>
+                        <p class="text-gray-600 mb-4">Professional haircuts, styling, and treatments for all hair types.</p>
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center">
+                                <i class="fas fa-star text-yellow-400 mr-1"></i>
+                                <span class="font-medium">4.9</span>
+                                <span class="text-gray-500 text-sm ml-1">(128)</span>
+                            </div>
+                            <button class="bg-primary hover:bg-purple-700 text-white px-4 py-2 rounded-full text-sm transition">
+                                Book Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Service Card 2 -->
+                <div class="service-card bg-white rounded-xl overflow-hidden shadow-md transition">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" 
+                             alt="Facial Treatments" class="w-full h-full object-cover">
+                        <div class="absolute bottom-0 left-0 bg-secondary text-white px-3 py-1 text-sm font-medium">
+                            <i class="fas fa-clock mr-1"></i> 45-75 mins
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="text-xl font-bold">Facial Treatments</h3>
+                            <span class="text-lg font-bold text-primary">$65+</span>
+                        </div>
+                        <p class="text-gray-600 mb-4">Rejuvenating facials customized for your skin type and concerns.</p>
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center">
+                                <i class="fas fa-star text-yellow-400 mr-1"></i>
+                                <span class="font-medium">4.8</span>
+                                <span class="text-gray-500 text-sm ml-1">(94)</span>
+                            </div>
+                            <button class="bg-primary hover:bg-purple-700 text-white px-4 py-2 rounded-full text-sm transition">
+                                Book Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Service Card 3 -->
+                <div class="service-card bg-white rounded-xl overflow-hidden shadow-md transition">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1519735777090-ec97162dc266?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" 
+                             alt="Manicure & Pedicure" class="w-full h-full object-cover">
+                        <div class="absolute bottom-0 left-0 bg-accent text-white px-3 py-1 text-sm font-medium">
+                            <i class="fas fa-clock mr-1"></i> 60-120 mins
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="text-xl font-bold">Manicure & Pedicure</h3>
+                            <span class="text-lg font-bold text-primary">$35+</span>
+                        </div>
+                        <p class="text-gray-600 mb-4">Luxurious nail care services with premium products.</p>
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center">
+                                <i class="fas fa-star text-yellow-400 mr-1"></i>
+                                <span class="font-medium">4.7</span>
+                                <span class="text-gray-500 text-sm ml-1">(156)</span>
+                            </div>
+                            <button class="bg-primary hover:bg-purple-700 text-white px-4 py-2 rounded-full text-sm transition">
+                                Book Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stylists Section -->
+    <section id="stylists" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-dark mb-4">Meet Our Stylists</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Our team of certified professionals are ready to help you look and feel your best.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Stylist Card 1 -->
+                <div class="stylist-card bg-light rounded-xl overflow-hidden shadow-md text-center transition hover:shadow-lg">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://randomuser.me/api/portraits/women/32.jpg" 
+                             alt="Emma Wilson" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-1">Emma Wilson</h3>
+                        <p class="text-secondary mb-3">Master Stylist</p>
+                        <div class="flex justify-center space-x-2 mb-4">
+                            <span class="bg-purple-100 text-primary text-xs px-2 py-1 rounded">Hair</span>
+                            <span class="bg-purple-100 text-primary text-xs px-2 py-1 rounded">Color</span>
+                            <span class="bg-purple-100 text-primary text-xs px-2 py-1 rounded">Extensions</span>
+                        </div>
+                        <div class="flex justify-center items-center mb-4">
+                            <i class="fas fa-star text-yellow-400 mr-1"></i>
+                            <span class="font-medium mr-1">4.9</span>
+                            <span class="text-gray-500 text-sm">(247 reviews)</span>
+                        </div>
+                        <button class="bg-primary hover:bg-purple-700 text-white px-4 py-2 rounded-full text-sm transition w-full">
+                            Book with Emma
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Stylist Card 2 -->
+                <div class="stylist-card bg-light rounded-xl overflow-hidden shadow-md text-center transition hover:shadow-lg">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" 
+                             alt="Sophia Chen" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-1">Sophia Chen</h3>
+                        <p class="text-secondary mb-3">Esthetician</p>
+                        <div class="flex justify-center space-x-2 mb-4">
+                            <span class="bg-purple-100 text-primary text-xs px-2 py-1 rounded">Facials</span>
+                            <span class="bg-purple-100 text-primary text-xs px-2 py-1 rounded">Peels</span>
+                            <span class="bg-purple-100 text-primary text-xs px-2 py-1 rounded">Microderm</span>
+                        </div>
+                        <div class="flex justify-center items-center mb-4">
+                            <i class="fas fa-star text-yellow-400 mr-1"></i>
+                            <span class="font-medium mr-1">4.8</span>
+                            <span class="text-gray-500 text-sm">(189 reviews)</span>
+                        </div>
+                        <button class="bg-primary hover:bg-purple-700 text-white px-4 py-2 rounded-full text-sm transition w-full">
+                            Book with Sophia
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Stylist Card 3 -->
+                <div class="stylist-card bg-light rounded-xl overflow-hidden shadow-md text-center transition hover:shadow-lg">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" 
+                             alt="David Rodriguez" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-1">David Rodriguez</h3>
+                        <p class="text-secondary mb-3">Barber</p>
+                        <div class="flex justify-center space-x-2 mb-4">
+                            <span class="bg-purple-100 text-primary text-xs px-2 py-1 rounded">Haircuts</span>
+                            <span class="bg-purple-100 text-primary text-xs px-2 py-1 rounded">Shaves</span>
+                            <span class="bg-purple-100 text-primary text-xs px-2 py-1 rounded">Beard</span>
+                        </div>
+                        <div class="flex justify-center items-center mb-4">
+                            <i class="fas fa-star text-yellow-400 mr-1"></i>
+                            <span class="font-medium mr-1">4.9</span>
+                            <span class="text-gray-500 text-sm">(312 reviews)</span>
+                        </div>
+                        <button class="bg-primary hover:bg-purple-700 text-white px-4 py-2 rounded-full text-sm transition w-full">
+                            Book with David
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Stylist Card 4 -->
+                <div class="stylist-card bg-light rounded-xl overflow-hidden shadow-md text-center transition hover:shadow-lg">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg" 
+                             alt="Mia Johnson" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-1">Mia Johnson</h3>
+                        <p class="text-secondary mb-3">Nail Technician</p>
+                        <div class="flex justify-center space-x-2 mb-4">
+                            <span class="bg-purple-100 text-primary text-xs px-2 py-1 rounded">Manicure</span>
+                            <span class="bg-purple-100 text-primary text-xs px-2 py-1 rounded">Pedicure</span>
+                            <span class="bg-purple-100 text-primary text-xs px-2 py-1 rounded">Gel</span>
+                        </div>
+                        <div class="flex justify-center items-center mb-4">
+                            <i class="fas fa-star text-yellow-400 mr-1"></i>
+                            <span class="font-medium mr-1">4.7</span>
+                            <span class="text-gray-500 text-sm">(176 reviews)</span>
+                        </div>
+                        <button class="bg-primary hover:bg-purple-700 text-white px-4 py-2 rounded-full text-sm transition w-full">
+                            Book with Mia
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-10">
+                <a href="#" class="inline-block border-2 border-primary text-primary hover:bg-primary hover:text-white font-bold py-3 px-8 rounded-full transition">
+                    View All Stylists
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section id="booking" class="py-16 bg-gradient-to-r from-purple-50 to-pink-50">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="md:flex">
+                    <div class="md:w-1/2 bg-primary text-white p-8 md:p-12">
+                        <h2 class="text-3xl font-bold mb-4">Ready for Your Transformation?</h2>
+                        <p class="mb-6">Book your appointment in just a few clicks. Our flexible scheduling makes it easy to find the perfect time.</p>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="bg-white bg-opacity-20 p-2 rounded-full mr-4">
+                                    <i class="fas fa-check text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold">Instant Confirmation</h4>
+                                    <p class="text-sm opacity-90">Get your appointment secured immediately</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="bg-white bg-opacity-20 p-2 rounded-full mr-4">
+                                    <i class="fas fa-check text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold">Flexible Rescheduling</h4>
+                                    <p class="text-sm opacity-90">Change your booking up to 24 hours before</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="bg-white bg-opacity-20 p-2 rounded-full mr-4">
+                                    <i class="fas fa-check text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold">Loyalty Rewards</h4>
+                                    <p class="text-sm opacity-90">Earn points with every visit</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="md:w-1/2 p-8 md:p-12">
+                        <h3 class="text-2xl font-bold text-dark mb-6">Book Your Appointment</h3>
+                        
+                        <form>
+                            <div class="mb-4">
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="service">Select Service</label>
+                                <select id="service" class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                                    <option>Haircut & Styling</option>
+                                    <option>Color Treatment</option>
+                                    <option>Facial Treatment</option>
+                                    <option>Manicure & Pedicure</option>
+                                    <option>Waxing Services</option>
+                                    <option>Makeup Application</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="stylist">Preferred Stylist</label>
+                                <select id="stylist" class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                                    <option>Any Available Stylist</option>
+                                    <option>Emma Wilson (Hair Specialist)</option>
+                                    <option>Sophia Chen (Esthetician)</option>
+                                    <option>David Rodriguez (Barber)</option>
+                                    <option>Mia Johnson (Nail Technician)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="date">Date & Time</label>
+                                <input type="datetime-local" id="date" class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                            </div>
+                            
+                            <button type="submit" class="w-full bg-primary hover:bg-purple-700 text-white font-bold py-3 px-4 rounded-lg transition">
+                                Check Availability
+                            </button>
+                        </form>
+                        
+                        <div class="mt-6 text-center">
+                            <p class="text-gray-600 text-sm">Need help? Call us at <a href="tel:+18005551234" class="text-primary font-medium">(800) 555-1234</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-dark mb-4">What Our Clients Say</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Don't just take our word for it - hear from our satisfied customers</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="bg-light p-8 rounded-xl">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-400 mr-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="text-sm text-gray-500">2 days ago</span>
+                    </div>
+                    <p class="text-gray-700 mb-6">"Emma transformed my hair! I've never received so many compliments. The online booking was so convenient and the salon atmosphere was relaxing."</p>
+                    <div class="flex items-center">
+                        <img src="https://randomuser.me/api/portraits/women/12.jpg" alt="Jessica T." class="w-10 h-10 rounded-full mr-3">
+                        <div>
+                            <h4 class="font-bold">Jessica T.</h4>
+                            <p class="text-sm text-gray-500">Regular Client</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="bg-light p-8 rounded-xl">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-400 mr-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="text-sm text-gray-500">1 week ago</span>
+                    </div>
+                    <p class="text-gray-700 mb-6">"David gives the best haircut I've ever had. The online system made it easy to book exactly when I wanted. Will definitely be coming back regularly!"</p>
+                    <div class="flex items-center">
+                        <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Michael R." class="w-10 h-10 rounded-full mr-3">
+                        <div>
+                            <h4 class="font-bold">Michael R.</h4>
+                            <p class="text-sm text-gray-500">New Client</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="bg-light p-8 rounded-xl">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-400 mr-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="text-sm text-gray-500">3 weeks ago</span>
+                    </div>
+                    <p class="text-gray-700 mb-6">"Sophia's facial treatments have completely transformed my skin. The ability to book online and see her availability in real-time is a game changer."</p>
+                    <div class="flex items-center">
+                        <img src="https://randomuser.me/api/portraits/women/28.jpg" alt="Amanda S." class="w-10 h-10 rounded-full mr-3">
+                        <div>
+                            <h4 class="font-bold">Amanda S.</h4>
+                            <p class="text-sm text-gray-500">Member Since 2020</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-16 bg-primary text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">Ready to Experience Glamour Haven?</h2>
+            <p class="text-xl mb-8 max-w-2xl mx-auto">Join thousands of satisfied clients who trust us with their beauty needs.</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#booking" class="bg-white hover:bg-gray-100 text-primary font-bold py-3 px-8 rounded-full transition">
+                    Book Your Appointment
+                </a>
+                <a href="tel:+18005551234" class="border-2 border-white hover:bg-white hover:bg-opacity-10 font-bold py-3 px-8 rounded-full transition">
+                    <i class="fas fa-phone mr-2"></i> Call Us Now
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fas fa-spa text-primary text-2xl"></i>
+                        <span class="text-xl font-bold">Glamour Haven</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">Your premier destination for salon and spa services, offering luxury treatments with convenience.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Home</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-white">Services</a></li>
+                        <li><a href="#stylists" class="text-gray-400 hover:text-white">Our Stylists</a></li>
+                        <li><a href="#booking" class="text-gray-400 hover:text-white">Book Now</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Special Offers</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Our Modules</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white"><i class="fas fa-users mr-2 text-secondary"></i> User Management</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white"><i class="fas fa-concierge-bell mr-2 text-accent"></i> Service Catalogue</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white"><i class="fas fa-calendar-check mr-2 text-primary"></i> Appointment Booking</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white"><i class="fas fa-chart-line mr-2 text-green-400"></i> Analytics Dashboard</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt text-primary mr-3 mt-1"></i>
+                            <span class="text-gray-400">123 Beauty Ave, Glamour City, GC 12345</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone text-primary mr-3"></i>
+                            <a href="tel:+18005551234" class="text-gray-400 hover:text-white">(800) 555-1234</a>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope text-primary mr-3"></i>
+                            <a href="mailto:hello@glamourhaven.com" class="text-gray-400 hover:text-white">hello@glamourhaven.com</a>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-clock text-primary mr-3"></i>
+                            <span class="text-gray-400">Mon-Sat: 9AM-8PM<br>Sun: 10AM-6PM</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-10 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-sm mb-4 md:mb-0">© 2023 Glamour Haven. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-white text-sm">Privacy Policy</a>
+                    <a href="#" class="text-gray-400 hover:text-white text-sm">Terms of Service</a>
+                    <a href="#" class="text-gray-400 hover:text-white text-sm">Accessibility</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('open');
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Simulate module loading
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Initializing salon booking system modules...');
+            
+            // In a real app, this would initialize the three modules
+            const modules = {
+                userManagement: true,
+                serviceCatalogue: true,
+                appointmentBooking: true
+            };
+            
+            console.log('Active modules:', modules);
+        });
+    </script>
+</body>
+</html>

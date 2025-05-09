@@ -12,6 +12,7 @@
                 "Database\\": "database/",
                 "App\\Models\\": "app/models/",
                 "App\\Controllers\\":"app/controllers/",
+                "App\\Auth\\": "app/auth/",
                 "Database\\Migrations\\": "database/migrations/",
                 "Utils\\": "utils/"
             }

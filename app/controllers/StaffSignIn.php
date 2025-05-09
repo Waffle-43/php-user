@@ -47,11 +47,12 @@ class StaffSignIn
             if (password_verify($password, $staffMember->password)) {
                 // Check if staff account is approved
                 if ($staffMember->status !== 'approved') {
-                    self::showError('general', 'Your staff account is pending approval', 'staff-signin');
-                    exit;
-                }
-                
-                $_SESSION['staff'] = [
+                self::showError('general', 'Your staff account is pending approval', 'staff-signin');
+                echo "Staff status: " . $staffMember->status . "\n";
+                exit;
+            }
+
+            $_SESSION['staff'] = [
                     'id' => $staffMember->id,
                     'username' => $staffMember->username,
                     'email' => $staffMember->email,
@@ -83,6 +84,3 @@ class StaffSignIn
         exit;
     }
 }
-
-
-

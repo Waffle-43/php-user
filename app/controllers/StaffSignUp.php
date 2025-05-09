@@ -58,7 +58,14 @@ class StaffSignUp
         }
 
         // Set default status to 'pending' for admin approval
-        $created = $staff->createStaff($full_name, $username, $email, $password, 'pending');
+        $staffData = [
+            'name' => $full_name,
+            'username' => $username,
+            'email' => $email,
+            'password' => $password,
+            'status' => 'pending'
+        ];
+        $created = $staff->createStaff($staffData);
 
         if ($created) {
             $_SESSION['success'] = "Staff account request submitted successfully! An administrator will review your request.";

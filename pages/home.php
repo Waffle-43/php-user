@@ -250,7 +250,10 @@ $user = $_SESSION['user'];
         <!-- Left navigation menu -->
         <ul class="left-nav">
             <li class="nav-item"><a href="home" class="active">HOME</a></li>
-            <li class="nav-item"><a href="pages">PAGES</a></li>
+            <li class="nav-item"><a href="sign-in">SIGN IN</a></li>
+            <li class="nav-item"><a href="sign-up">SIGN UP</a></li>
+            <li class="nav-item"><a href="schedule">SCHEDULE</a></li>
+            <li class="nav-item"><a href="services">SERVICES</a></li>
         </ul>
 
         <!-- Center logo -->
