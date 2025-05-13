@@ -99,6 +99,18 @@ $waitlistStmt->execute([$today]);
 $waitlistResult = $waitlistStmt->fetch();
 $waitlistCount = $waitlistResult['count'] ?: 0;
 
+// Get pending staff count (requires PERMISSION_MANAGE_STAFF)
+$pendingStaffCount = 0;
+if (\App\Auth\RolePermission::hasPermission(\App\Auth\RolePermission::PERMISSION_MANAGE_STAFF)) {
+    $pendingStaffStmt = $conn->prepare("
+        SELECT COUNT(*) as count
+        FROM staff
+        WHERE status = 'pending'
+    ");
+    $pendingStaffStmt->execute();
+    $pendingStaffCount = $pendingStaffStmt->fetch()['count'];
+}
+
 // Get recent cancellations/reschedules (using the updated table schema)
 $recentChanges = $conn->prepare("
     SELECT 
@@ -118,9 +130,9 @@ $recentChanges = $conn->prepare("
     WHERE 
         a.stylist_id = ?
         AND (a.status = 'cancelled' OR a.status = 'rescheduled')
-        AND (a.updated_at >= DATE_SUB(NOW(), INTERVAL 24 HOUR) OR a.created_at >= DATE_SUB(NOW(), INTERVAL 24 HOUR))
-    ORDER BY 
-        COALESCE(a.updated_at, a.created_at) DESC
+        AND (a.created_at >= DATE_SUB(NOW(), INTERVAL 24 HOUR))
+    ORDER BY
+        a.created_at DESC
     LIMIT 5
 ");
 $recentChanges->execute([$stylist_id]);
@@ -415,27 +427,39 @@ $serviceChartData = json_encode([
             <nav class="p-4">
                 <div class="mb-6">
                     <p class="text-xs uppercase text-indigo-200 mb-2">Navigation</p>
-                    <a href="integrated_homepage.php" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
+                    <a href="home" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
                         <i class="fas fa-home mr-2"></i> Back to Homepage
                     </a>
-                    <a href="service_provider_dashboard.php?stylist_id=<?= $stylist_id ?>" class="block py-2 px-3 rounded bg-white bg-opacity-10 mb-1">
+                    <a href="service-dashboard?stylist_id=<?= $stylist_id ?>" class="block py-2 px-3 rounded bg-white bg-opacity-10 mb-1">
                         <i class="fas fa-spa mr-2"></i> Dashboard
                     </a>
-                    <a href="service_provider_calendar.php?stylist_id=<?= $stylist_id ?>" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
+                    <a href="calendar-appt?stylist_id=<?= $stylist_id ?>" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
                         <i class="fas fa-calendar-alt mr-2"></i> Calendar
                     </a>
-                    <a href="service_provider_all_appointments.php?stylist_id=<?= $stylist_id ?>" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
+                    <a href="all-appointments?stylist_id=<?= $stylist_id ?>" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
                         <i class="fas fa-calendar-check mr-2"></i> All Appointments
                     </a>
-                    <a href="Module2-20250505T195816Z-1-001/Module2/addService.php" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
+                    <a href="add-services" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
                         <i class="fas fa-plus-circle mr-2"></i> Add Service
                     </a>
-                    <a href="Module2-20250505T195816Z-1-001/Module2/editService.php" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
+                    <a href="edit-services" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
                         <i class="fas fa-edit mr-2"></i> Manage Services
                     </a>
                 </div>
+                <div class="mb-6">
+                    <p class="text-xs uppercase text-indigo-200 mb-2">Administration</p>
+                 
+                    <a href="users-manage" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
+                        <i class="fas fa-users mr-2"></i> Customers
+                    </a>
+                   
+                    <a href="staff-manage" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
+                        <i class="fas fa-user-tie mr-2"></i> Staff Management
+                    </a>
+                  
+                </div>
                 <div>
-                    <a href="#" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
+                    <a href="logout" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
                         <i class="fas fa-sign-out-alt mr-2"></i> Logout
                     </a>
                 </div>
@@ -470,7 +494,7 @@ $serviceChartData = json_encode([
                                     <?php endif; ?>
                                 </div>
                                 <div class="max-h-64 overflow-y-auto">
-                                    <?php if ($notificationCount > 0): ?>
+                                    <?php if (count($notifications) > 0): ?>
                                         <?php foreach ($notifications as $notification): ?>
                                         <div class="p-3 border-b border-gray-100 hover:bg-gray-50">
                                             <?php 
@@ -499,7 +523,7 @@ $serviceChartData = json_encode([
                                                     <p class="text-sm"><?= htmlspecialchars($notification['message']) ?></p>
                                                     <p class="text-xs text-gray-500 mt-1"><?= date('M d, g:i A', strtotime($notification['created_at'])) ?></p>
                                                     <?php if ($notification['related_id']): ?>
-                                                    <a href="service_provider_manage_appointment.php?id=<?= $notification['related_id'] ?>&stylist_id=<?= $stylist_id ?>" 
+                                                    <a href="manage-appointment?id=<?= $notification['related_id'] ?>&stylist_id=<?= $stylist_id ?>" 
                                                        class="text-xs text-blue-500 hover:text-blue-700 mt-1 inline-block">
                                                         View Appointment Details
                                                     </a>
@@ -515,7 +539,7 @@ $serviceChartData = json_encode([
                                     <?php endif; ?>
                                 </div>
                                 <div class="p-3 border-t border-gray-100 text-center">
-                                    <a href="all_notifications.php?stylist_id=<?= $stylist_id ?>" class="text-xs text-purple-600 hover:text-purple-800">
+                                    <a href="all-notifications?stylist_id=<?= $stylist_id ?>" class="text-xs text-purple-600 hover:text-purple-800">
                                         View All Notifications
                                     </a>
                                 </div>
@@ -531,10 +555,10 @@ $serviceChartData = json_encode([
                             <!-- User dropdown -->
                             <div id="user-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl z-20">
                                 <div class="py-1">
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+                                    <a href="profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
                                     <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
                                     <div class="border-t border-gray-100"></div>
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
+                                    <a href="logout" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
                                 </div>
                             </div>
                         </div>
@@ -628,6 +652,29 @@ $serviceChartData = json_encode([
                                 <?php endif; ?>
                             </div>
                         </div>
+                        
+                        <!-- Pending Staff Approvals -->
+                        <?php if (\App\Auth\RolePermission::hasPermission(\App\Auth\RolePermission::PERMISSION_MANAGE_STAFF)): ?>
+                        <div class="bg-white rounded-lg shadow p-5 metric-card border-l-4 border-orange-500">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-500">Pending Staff Approvals</h4>
+                                    <div class="mt-2 flex items-baseline">
+                                        <p class="text-3xl font-semibold text-gray-900"><?= $pendingStaffCount ?></p>
+                                        <p class="ml-2 text-sm text-gray-600">pending</p>
+                                    </div>
+                                </div>
+                                <div class="p-3 rounded-full bg-orange-100 text-orange-600">
+                                    <i class="fas fa-user-plus text-xl"></i>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <a href="/staff-manage" class="text-sm text-orange-600 hover:text-orange-800">
+                                    Review applications <i class="fas fa-arrow-right ml-1 text-xs"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <?php endif; ?>
                     </div>
                 </div>
                 
@@ -731,7 +778,7 @@ $serviceChartData = json_encode([
                                                     <p class="text-sm font-medium"><?= htmlspecialchars($notification['message']) ?></p>
                                                     <p class="text-xs text-gray-500 mt-1"><?= date('M d, g:i A', strtotime($notification['created_at'])) ?></p>
                                                     <?php if ($notification['related_id']): ?>
-                                                    <a href="service_provider_manage_appointment.php?id=<?= $notification['related_id'] ?>&stylist_id=<?= $stylist_id ?>" 
+                                                    <a href="manage-appointment?id=<?= $notification['related_id'] ?>&stylist_id=<?= $stylist_id ?>" 
                                                        class="text-xs text-blue-600 hover:text-blue-800 mt-2 inline-block">
                                                         <i class="fas fa-external-link-alt mr-1"></i> View Details
                                                     </a>
@@ -749,7 +796,7 @@ $serviceChartData = json_encode([
                             </div>
                             <?php if (count($notifications) > 0): ?>
                             <div class="p-3 border-t border-gray-100 text-center">
-                                <a href="all_notifications.php?stylist_id=<?= $stylist_id ?>" class="text-sm text-purple-600 hover:text-purple-800">
+                                <a href="all-notifications?stylist_id=<?= $stylist_id ?>" class="text-sm text-purple-600 hover:text-purple-800">
                                     View All Notifications
                                 </a>
                             </div>
@@ -870,11 +917,11 @@ $serviceChartData = json_encode([
                                                 </span>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-xs">
-                                                <a href="service_provider_manage_appointment.php?id=<?= $appt['id'] ?>&stylist_id=<?= $stylist_id ?>" class="text-blue-600 hover:text-blue-900 mr-3">
+                                                <a href="manage-appointment?id=<?= $appt['id'] ?>&stylist_id=<?= $stylist_id ?>" class="text-blue-600 hover:text-blue-900 mr-3">
                                                     <i class="fas fa-eye"></i> View
                                                 </a>
                                                 <?php if ($appt['status'] != 'completed' && $appt['status'] != 'cancelled'): ?>
-                                                <a href="service_provider_reschedule.php?id=<?= $appt['id'] ?>&stylist_id=<?= $stylist_id ?>" class="text-amber-600 hover:text-amber-900 mr-3">
+                                                <a href="reschedule-services?id=<?= $appt['id'] ?>&stylist_id=<?= $stylist_id ?>" class="text-amber-600 hover:text-amber-900 mr-3">
                                                     <i class="fas fa-calendar-plus"></i> Reschedule
                                                 </a>
                                                 <?php endif; ?>
@@ -970,7 +1017,7 @@ $serviceChartData = json_encode([
                                                     </div>
                                                 </div>
                                                 <div class="w-24 flex-shrink-0 text-right">
-                                                    <a href="service_provider_manage_appointment.php?id=<?= $appt['id'] ?>&stylist_id=<?= $stylist_id ?>" class="text-blue-600 hover:text-blue-900">
+                                                    <a href="manage-appointment?id=<?= $appt['id'] ?>&stylist_id=<?= $stylist_id ?>" class="text-blue-600 hover:text-blue-900">
                                                         <i class="fas fa-eye"></i> Details
                                                     </a>
                                                 </div>
@@ -989,7 +1036,7 @@ $serviceChartData = json_encode([
                                 <?php endif; ?>
                             </div>
                             <div class="p-3 border-t border-gray-100 text-center">
-                                <a href="service_provider_calendar.php?stylist_id=<?= $stylist_id ?>" class="text-sm text-purple-600 hover:text-purple-800">
+                                <a href="calendar-appt?stylist_id=<?= $stylist_id ?>" class="text-sm text-purple-600 hover:text-purple-800">
                                     View Full Calendar <i class="fas fa-arrow-right ml-1"></i>
                                 </a>
                             </div>
@@ -1287,4 +1334,4 @@ $serviceChartData = json_encode([
     });
     </script>
 </body>
-</html> 
+</html>

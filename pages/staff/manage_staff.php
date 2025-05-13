@@ -9,7 +9,8 @@ if (!isset($_SESSION['staff'])) {
 }
 
 // Check for permission
-if (!\App\Auth\RolePermission::hasPermission(\App\Auth\RolePermission::PERMISSION_MANAGE_STAFF)) {
+$rbacService = new \App\Auth\RbacService();
+if (!isset($_SESSION['staff']['id']) || !$rbacService->userHasPermission($_SESSION['staff']['id'], 'manage_staff', 'staff')) {
     $_SESSION['errors']['general'][] = "You don't have permission to access this area";
     header('Location: /staff-dashboard');
     exit;
@@ -106,7 +107,7 @@ $staff = $staff ?? [];
                             </a>
                         </li>
                         
-                        <?php if (\App\Auth\RolePermission::hasPermission(\App\Auth\RolePermission::PERMISSION_MANAGE_APPOINTMENTS)): ?>
+                        <?php if (isset($_SESSION['staff']['id']) && $rbacService->userHasPermission($_SESSION['staff']['id'], 'manage_appointments', 'staff')): ?>
                         <li class="nav-item">
                             <a class="nav-link" href="/appointments">
                                 <i class="bi bi-calendar-check me-1"></i>
@@ -115,7 +116,7 @@ $staff = $staff ?? [];
                         </li>
                         <?php endif; ?>
                         
-                        <?php if (\App\Auth\RolePermission::hasPermission(\App\Auth\RolePermission::PERMISSION_MANAGE_SERVICES)): ?>
+                        <?php if (isset($_SESSION['staff']['id']) && $rbacService->userHasPermission($_SESSION['staff']['id'], 'manage_services', 'staff')): ?>
                         <li class="nav-item">
                             <a class="nav-link" href="/services">
                                 <i class="bi bi-list-check me-1"></i>
@@ -124,7 +125,7 @@ $staff = $staff ?? [];
                         </li>
                         <?php endif; ?>
                         
-                        <?php if (\App\Auth\RolePermission::hasPermission(\App\Auth\RolePermission::PERMISSION_MANAGE_USERS)): ?>
+                        <?php if (isset($_SESSION['staff']['id']) && $rbacService->userHasPermission($_SESSION['staff']['id'], 'manage_users', 'staff')): ?>
                         <li class="nav-item">
                             <a class="nav-link" href="/users">
                                 <i class="bi bi-people me-1"></i>
@@ -133,7 +134,7 @@ $staff = $staff ?? [];
                         </li>
                         <?php endif; ?>
                         
-                        <?php if (\App\Auth\RolePermission::hasPermission(\App\Auth\RolePermission::PERMISSION_MANAGE_STAFF)): ?>
+                        <?php if (isset($_SESSION['staff']['id']) && $rbacService->userHasPermission($_SESSION['staff']['id'], 'manage_staff', 'staff')): ?>
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="/staff-manage">
                                 <i class="bi bi-person-badge me-1"></i>
@@ -142,7 +143,7 @@ $staff = $staff ?? [];
                         </li>
                         <?php endif; ?>
                         
-                        <?php if (\App\Auth\RolePermission::hasPermission(\App\Auth\RolePermission::PERMISSION_VIEW_REPORTS)): ?>
+                        <?php if (isset($_SESSION['staff']['id']) && $rbacService->userHasPermission($_SESSION['staff']['id'], 'view_reports', 'staff')): ?>
                         <li class="nav-item">
                             <a class="nav-link" href="/reports">
                                 <i class="bi bi-graph-up me-1"></i>
@@ -151,7 +152,7 @@ $staff = $staff ?? [];
                         </li>
                         <?php endif; ?>
                         
-                        <?php if (\App\Auth\RolePermission::hasPermission(\App\Auth\RolePermission::PERMISSION_MANAGE_SETTINGS)): ?>
+                        <?php if (isset($_SESSION['staff']['id']) && $rbacService->userHasPermission($_SESSION['staff']['id'], 'manage_settings', 'staff')): ?>
                         <li class="nav-item">
                             <a class="nav-link" href="/settings">
                                 <i class="bi bi-gear me-1"></i>

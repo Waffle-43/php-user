@@ -99,6 +99,7 @@ foreach ($appointments as $appointment) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -110,24 +111,30 @@ foreach ($appointments as $appointment) {
             transition: all 0.3s;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
+
         .appointment-card:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
+
         .status-confirmed {
             border-left: 4px solid #10b981;
         }
+
         .status-pending {
             border-left: 4px solid #f59e0b;
         }
+
         .status-cancelled {
             border-left: 4px solid #ef4444;
         }
+
         .status-completed {
             border-left: 4px solid #3b82f6;
         }
     </style>
 </head>
+
 <body class="bg-gray-50">
     <div class="flex h-screen overflow-hidden">
         <!-- Sidebar -->
@@ -142,20 +149,26 @@ foreach ($appointments as $appointment) {
             <nav class="p-4">
                 <div class="mb-6">
                     <p class="text-xs uppercase text-indigo-200 mb-2">Navigation</p>
-                    <a href="integrated_homepage.php" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
+                    <a href="home" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
                         <i class="fas fa-home mr-2"></i> Back to Homepage
                     </a>
-                    <a href="service_provider_dashboard.php?stylist_id=<?= $stylist_id ?>" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
+                    <a href="service-dashboard?stylist_id=<?= $stylist_id ?>"
+                        class="block py-2 px-3 rounded bg-white bg-opacity-10 mb-1">
                         <i class="fas fa-spa mr-2"></i> Dashboard
                     </a>
-                    <a href="service_provider_calendar.php?stylist_id=<?= $stylist_id ?>" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
+                    <a href="calendar-appt?stylist_id=<?= $stylist_id ?>"
+                        class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
                         <i class="fas fa-calendar-alt mr-2"></i> Calendar
                     </a>
-                    <a href="service_provider_clients.php?stylist_id=<?= $stylist_id ?>" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
-                        <i class="fas fa-users mr-2"></i> Clients
+                    <a href="all-appointments?stylist_id=<?= $stylist_id ?>"
+                        class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
+                        <i class="fas fa-calendar-check mr-2"></i> All Appointments
                     </a>
-                    <a href="service_provider_services.php?stylist_id=<?= $stylist_id ?>" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
-                        <i class="fas fa-concierge-bell mr-2"></i> Services
+                    <a href="add-services" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
+                        <i class="fas fa-plus-circle mr-2"></i> Add Service
+                    </a>
+                    <a href="edit-services" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
+                        <i class="fas fa-edit mr-2"></i> Manage Services
                     </a>
                 </div>
             </nav>
@@ -173,10 +186,12 @@ foreach ($appointments as $appointment) {
                         <h2 class="text-lg font-semibold">All Appointments</h2>
                     </div>
                     <div class="flex items-center">
-                        <a href="service_provider_dashboard.php?stylist_id=<?= $stylist_id ?>" class="bg-gray-100 text-gray-700 px-3 py-1 rounded text-sm flex items-center hover:bg-gray-200 mr-2">
+                        <a href="service_provider_dashboard.php?stylist_id=<?= $stylist_id ?>"
+                            class="bg-gray-100 text-gray-700 px-3 py-1 rounded text-sm flex items-center hover:bg-gray-200 mr-2">
                             <i class="fas fa-home mr-1"></i> Dashboard
                         </a>
-                        <a href="service_provider_add_appointment.php?stylist_id=<?= $stylist_id ?>" class="bg-purple-600 text-white px-3 py-1 rounded text-sm flex items-center hover:bg-purple-700">
+                        <a href="service_provider_add_appointment.php?stylist_id=<?= $stylist_id ?>"
+                            class="bg-purple-600 text-white px-3 py-1 rounded text-sm flex items-center hover:bg-purple-700">
                             <i class="fas fa-plus mr-1"></i> New Appointment
                         </a>
                     </div>
@@ -189,42 +204,58 @@ foreach ($appointments as $appointment) {
                 <div class="bg-white rounded-lg shadow p-4 mb-6">
                     <div class="flex flex-wrap items-center justify-between gap-4">
                         <div class="flex flex-wrap gap-2">
-                            <a href="?stylist_id=<?= $stylist_id ?>&status=all&date=<?= $date_filter ?>&search=<?= htmlspecialchars($search_term) ?>" class="px-3 py-1 rounded text-sm <?= $status_filter === 'all' ? 'bg-purple-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' ?>">
-                                All <span class="ml-1 px-1.5 py-0.5 rounded-full text-xs <?= $status_filter === 'all' ? 'bg-white text-purple-600' : 'bg-gray-200 text-gray-700' ?>"><?= $counts['all'] ?></span>
+                            <a href="?stylist_id=<?= $stylist_id ?>&status=all&date=<?= $date_filter ?>&search=<?= htmlspecialchars($search_term) ?>"
+                                class="px-3 py-1 rounded text-sm <?= $status_filter === 'all' ? 'bg-purple-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' ?>">
+                                All <span
+                                    class="ml-1 px-1.5 py-0.5 rounded-full text-xs <?= $status_filter === 'all' ? 'bg-white text-purple-600' : 'bg-gray-200 text-gray-700' ?>"><?= $counts['all'] ?></span>
                             </a>
-                            <a href="?stylist_id=<?= $stylist_id ?>&status=pending&date=<?= $date_filter ?>&search=<?= htmlspecialchars($search_term) ?>" class="px-3 py-1 rounded text-sm <?= $status_filter === 'pending' ? 'bg-yellow-500 text-white' : 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200' ?>">
-                                Pending <span class="ml-1 px-1.5 py-0.5 rounded-full text-xs <?= $status_filter === 'pending' ? 'bg-white text-yellow-600' : 'bg-yellow-200 text-yellow-800' ?>"><?= $counts['pending'] ?></span>
+                            <a href="?stylist_id=<?= $stylist_id ?>&status=pending&date=<?= $date_filter ?>&search=<?= htmlspecialchars($search_term) ?>"
+                                class="px-3 py-1 rounded text-sm <?= $status_filter === 'pending' ? 'bg-yellow-500 text-white' : 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200' ?>">
+                                Pending <span
+                                    class="ml-1 px-1.5 py-0.5 rounded-full text-xs <?= $status_filter === 'pending' ? 'bg-white text-yellow-600' : 'bg-yellow-200 text-yellow-800' ?>"><?= $counts['pending'] ?></span>
                             </a>
-                            <a href="?stylist_id=<?= $stylist_id ?>&status=confirmed&date=<?= $date_filter ?>&search=<?= htmlspecialchars($search_term) ?>" class="px-3 py-1 rounded text-sm <?= $status_filter === 'confirmed' ? 'bg-green-600 text-white' : 'bg-green-100 text-green-800 hover:bg-green-200' ?>">
-                                Confirmed <span class="ml-1 px-1.5 py-0.5 rounded-full text-xs <?= $status_filter === 'confirmed' ? 'bg-white text-green-600' : 'bg-green-200 text-green-800' ?>"><?= $counts['confirmed'] ?></span>
+                            <a href="?stylist_id=<?= $stylist_id ?>&status=confirmed&date=<?= $date_filter ?>&search=<?= htmlspecialchars($search_term) ?>"
+                                class="px-3 py-1 rounded text-sm <?= $status_filter === 'confirmed' ? 'bg-green-600 text-white' : 'bg-green-100 text-green-800 hover:bg-green-200' ?>">
+                                Confirmed <span
+                                    class="ml-1 px-1.5 py-0.5 rounded-full text-xs <?= $status_filter === 'confirmed' ? 'bg-white text-green-600' : 'bg-green-200 text-green-800' ?>"><?= $counts['confirmed'] ?></span>
                             </a>
-                            <a href="?stylist_id=<?= $stylist_id ?>&status=completed&date=<?= $date_filter ?>&search=<?= htmlspecialchars($search_term) ?>" class="px-3 py-1 rounded text-sm <?= $status_filter === 'completed' ? 'bg-blue-600 text-white' : 'bg-blue-100 text-blue-800 hover:bg-blue-200' ?>">
-                                Completed <span class="ml-1 px-1.5 py-0.5 rounded-full text-xs <?= $status_filter === 'completed' ? 'bg-white text-blue-600' : 'bg-blue-200 text-blue-800' ?>"><?= $counts['completed'] ?></span>
+                            <a href="?stylist_id=<?= $stylist_id ?>&status=completed&date=<?= $date_filter ?>&search=<?= htmlspecialchars($search_term) ?>"
+                                class="px-3 py-1 rounded text-sm <?= $status_filter === 'completed' ? 'bg-blue-600 text-white' : 'bg-blue-100 text-blue-800 hover:bg-blue-200' ?>">
+                                Completed <span
+                                    class="ml-1 px-1.5 py-0.5 rounded-full text-xs <?= $status_filter === 'completed' ? 'bg-white text-blue-600' : 'bg-blue-200 text-blue-800' ?>"><?= $counts['completed'] ?></span>
                             </a>
-                            <a href="?stylist_id=<?= $stylist_id ?>&status=cancelled&date=<?= $date_filter ?>&search=<?= htmlspecialchars($search_term) ?>" class="px-3 py-1 rounded text-sm <?= $status_filter === 'cancelled' ? 'bg-red-600 text-white' : 'bg-red-100 text-red-800 hover:bg-red-200' ?>">
-                                Cancelled <span class="ml-1 px-1.5 py-0.5 rounded-full text-xs <?= $status_filter === 'cancelled' ? 'bg-white text-red-600' : 'bg-red-200 text-red-800' ?>"><?= $counts['cancelled'] ?></span>
+                            <a href="?stylist_id=<?= $stylist_id ?>&status=cancelled&date=<?= $date_filter ?>&search=<?= htmlspecialchars($search_term) ?>"
+                                class="px-3 py-1 rounded text-sm <?= $status_filter === 'cancelled' ? 'bg-red-600 text-white' : 'bg-red-100 text-red-800 hover:bg-red-200' ?>">
+                                Cancelled <span
+                                    class="ml-1 px-1.5 py-0.5 rounded-full text-xs <?= $status_filter === 'cancelled' ? 'bg-white text-red-600' : 'bg-red-200 text-red-800' ?>"><?= $counts['cancelled'] ?></span>
                             </a>
                         </div>
-                        
+
                         <div class="flex items-center gap-2">
                             <div class="relative">
-                                <select id="date-filter" class="appearance-none bg-gray-100 border border-gray-300 rounded px-3 py-1 pr-8 text-sm">
-                                    <option value="upcoming" <?= $date_filter === 'upcoming' ? 'selected' : '' ?>>Upcoming</option>
+                                <select id="date-filter"
+                                    class="appearance-none bg-gray-100 border border-gray-300 rounded px-3 py-1 pr-8 text-sm">
+                                    <option value="upcoming" <?= $date_filter === 'upcoming' ? 'selected' : '' ?>>Upcoming
+                                    </option>
                                     <option value="today" <?= $date_filter === 'today' ? 'selected' : '' ?>>Today</option>
-                                    <option value="week" <?= $date_filter === 'week' ? 'selected' : '' ?>>This Week</option>
-                                    <option value="month" <?= $date_filter === 'month' ? 'selected' : '' ?>>This Month</option>
+                                    <option value="week" <?= $date_filter === 'week' ? 'selected' : '' ?>>This Week
+                                    </option>
+                                    <option value="month" <?= $date_filter === 'month' ? 'selected' : '' ?>>This Month
+                                    </option>
                                     <option value="past" <?= $date_filter === 'past' ? 'selected' : '' ?>>Past</option>
                                     <option value="all" <?= $date_filter === 'all' ? 'selected' : '' ?>>All Dates</option>
                                 </select>
                                 <i class="fas fa-chevron-down absolute right-2 top-2 text-xs text-gray-500"></i>
                             </div>
-                            
+
                             <form method="GET" class="flex">
                                 <input type="hidden" name="stylist_id" value="<?= $stylist_id ?>">
                                 <input type="hidden" name="status" value="<?= $status_filter ?>">
                                 <input type="hidden" name="date" value="<?= $date_filter ?>">
                                 <div class="relative">
-                                    <input type="text" name="search" value="<?= htmlspecialchars($search_term) ?>" placeholder="Search..." class="bg-gray-100 border border-gray-300 rounded px-3 py-1 text-sm pr-10">
+                                    <input type="text" name="search" value="<?= htmlspecialchars($search_term) ?>"
+                                        placeholder="Search..."
+                                        class="bg-gray-100 border border-gray-300 rounded px-3 py-1 text-sm pr-10">
                                     <button type="submit" class="absolute right-0 top-0 h-full px-2 text-gray-500">
                                         <i class="fas fa-search"></i>
                                     </button>
@@ -233,14 +264,15 @@ foreach ($appointments as $appointment) {
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Appointments List -->
                 <div class="bg-white rounded-lg shadow overflow-hidden">
                     <?php if (empty($appointments)): ?>
                         <div class="p-8 text-center text-gray-500">
                             <i class="fas fa-calendar-day text-gray-300 text-4xl mb-3"></i>
                             <p>No appointments found matching your criteria.</p>
-                            <a href="?stylist_id=<?= $stylist_id ?>" class="mt-3 inline-block text-purple-600 hover:text-purple-800 text-sm">
+                            <a href="?stylist_id=<?= $stylist_id ?>"
+                                class="mt-3 inline-block text-purple-600 hover:text-purple-800 text-sm">
                                 <i class="fas fa-redo mr-1"></i> Clear filters
                             </a>
                         </div>
@@ -249,12 +281,24 @@ foreach ($appointments as $appointment) {
                             <table class="min-w-full divide-y divide-gray-200">
                                 <thead class="bg-gray-50">
                                     <tr>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date & Time</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Client</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Service</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Date & Time</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Client</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Service</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Price</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Status</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
@@ -263,19 +307,23 @@ foreach ($appointments as $appointment) {
                                             <td colspan="6" class="px-6 py-2 text-sm font-medium text-gray-500">
                                                 <?= date('l, F j, Y', strtotime($date)) ?>
                                                 <?php if ($date === date('Y-m-d')): ?>
-                                                    <span class="ml-2 px-2 py-0.5 text-xs bg-blue-100 text-blue-800 rounded-full">Today</span>
+                                                    <span
+                                                        class="ml-2 px-2 py-0.5 text-xs bg-blue-100 text-blue-800 rounded-full">Today</span>
                                                 <?php endif; ?>
                                             </td>
                                         </tr>
                                         <?php foreach ($dateAppointments as $appointment): ?>
                                             <tr>
                                                 <td class="px-6 py-4 whitespace-nowrap">
-                                                    <div class="text-sm font-medium"><?= date('g:i A', strtotime($appointment['appointment_time'])) ?></div>
+                                                    <div class="text-sm font-medium">
+                                                        <?= date('g:i A', strtotime($appointment['appointment_time'])) ?></div>
                                                     <div class="text-xs text-gray-500"><?= $appointment['duration'] ?> min</div>
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap">
-                                                    <div class="text-sm font-medium"><?= htmlspecialchars($appointment['customer_name']) ?></div>
-                                                    <div class="text-xs text-gray-500"><?= htmlspecialchars($appointment['customer_phone']) ?></div>
+                                                    <div class="text-sm font-medium">
+                                                        <?= htmlspecialchars($appointment['customer_name']) ?></div>
+                                                    <div class="text-xs text-gray-500">
+                                                        <?= htmlspecialchars($appointment['customer_phone']) ?></div>
                                                 </td>
                                                 <td class="px-6 py-4">
                                                     <div class="text-sm"><?= htmlspecialchars($appointment['service_name']) ?></div>
@@ -286,19 +334,29 @@ foreach ($appointments as $appointment) {
                                                 <td class="px-6 py-4 whitespace-nowrap">
                                                     <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full 
                                                     <?php
-                                                        switch ($appointment['status']) {
-                                                            case 'pending': echo 'bg-yellow-100 text-yellow-800'; break;
-                                                            case 'confirmed': echo 'bg-green-100 text-green-800'; break;
-                                                            case 'cancelled': echo 'bg-red-100 text-red-800'; break;
-                                                            case 'completed': echo 'bg-blue-100 text-blue-800'; break;
-                                                            default: echo 'bg-gray-100 text-gray-800';
-                                                        }
+                                                    switch ($appointment['status']) {
+                                                        case 'pending':
+                                                            echo 'bg-yellow-100 text-yellow-800';
+                                                            break;
+                                                        case 'confirmed':
+                                                            echo 'bg-green-100 text-green-800';
+                                                            break;
+                                                        case 'cancelled':
+                                                            echo 'bg-red-100 text-red-800';
+                                                            break;
+                                                        case 'completed':
+                                                            echo 'bg-blue-100 text-blue-800';
+                                                            break;
+                                                        default:
+                                                            echo 'bg-gray-100 text-gray-800';
+                                                    }
                                                     ?>">
                                                         <?= ucfirst($appointment['status']) ?>
                                                     </span>
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                    <a href="service_provider_manage_appointment.php?id=<?= $appointment['id'] ?>&stylist_id=<?= $stylist_id ?>" class="text-purple-600 hover:text-purple-900">
+                                                    <a href="service_provider_manage_appointment.php?id=<?= $appointment['id'] ?>&stylist_id=<?= $stylist_id ?>"
+                                                        class="text-purple-600 hover:text-purple-900">
                                                         <i class="fas fa-edit mr-1"></i> Manage
                                                     </a>
                                                 </td>
@@ -313,21 +371,22 @@ foreach ($appointments as $appointment) {
             </main>
         </div>
     </div>
-    
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Date filter change handler
-            document.getElementById('date-filter').addEventListener('change', function() {
+            document.getElementById('date-filter').addEventListener('change', function () {
                 const url = new URL(window.location.href);
                 url.searchParams.set('date', this.value);
                 window.location.href = url.toString();
             });
-            
+
             // Toggle sidebar
-            document.getElementById('sidebar-toggle').addEventListener('click', function() {
+            document.getElementById('sidebar-toggle').addEventListener('click', function () {
                 document.querySelector('.sidebar').classList.toggle('hidden');
             });
         });
     </script>
 </body>
-</html> 
+
+</html>

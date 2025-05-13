@@ -85,10 +85,10 @@ try {
                 <span class="text-xl font-bold text-white">Harmony Heaven Spa</span>
             </div>
             <div>
-                <a href="integrated_homepage.php" class="text-white hover:text-pink-200 mr-4">
+                <a href="home" class="text-white hover:text-pink-200 mr-4">
                     <i class="fas fa-home mr-1"></i> Home
                 </a>
-                <a href="appointments.php" class="text-white hover:text-pink-200 mr-4">
+                <a href="my-appt" class="text-white hover:text-pink-200 mr-4">
                     <i class="fas fa-calendar-check mr-1"></i> My Appointments
                 </a>
                 <!-- Add notification bell with dropdown -->
@@ -485,7 +485,7 @@ try {
                     </div>
                 `;
                 
-                const response = await fetch(`book_appointment.php?action=get_time_slots&date=${date}`);
+                const response = await fetch(`book-appt?action=get_time_slots&date=${date}`);
                 const data = await response.json();
                 
                 const container = document.getElementById('time-slots-container');
@@ -561,7 +561,7 @@ try {
                 `;
                 
                 // Include the selected service ID to get specialists for this service
-                const response = await fetch(`book_appointment.php?action=get_stylists&date=${bookingState.selectedDate}&service_id=${bookingState.selectedService.id}`);
+                const response = await fetch(`book-appt?action=get_stylists&date=${bookingState.selectedDate}&service_id=${bookingState.selectedService.id}`);
                 const data = await response.json();
                 
                 container.innerHTML = '';
@@ -906,7 +906,7 @@ try {
                     appointmentData.append('notes', document.getElementById('booking-notes').value || '');
                     
                     // Also add parameters to URL as a backup
-                    const apiUrl = `book_appointment.php?action=create_appointment&service_id=${
+                    const apiUrl = `book-appt?action=create_appointment&service_id=${
                         encodeURIComponent(bookingState.selectedService.id)
                     }&stylist_id=${
                         encodeURIComponent(bookingState.selectedStylist.id)
@@ -948,7 +948,7 @@ try {
                         simpleParams.append('start_time', formattedTime);
                         
                         // Try the most direct method possible
-                        const response = await fetch('book_appointment.php?action=create_appointment', {
+                        const response = await fetch('book-appt?action=create_appointment', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -976,7 +976,7 @@ try {
                         
                         if (result.success) {
                             alert('Booking confirmed! You will receive a confirmation notification.');
-                            window.location.href = 'appointments.php';
+                            window.location.href = 'my-appt';
                         } else {
                             alert('Error: ' + result.message);
                             console.error('Server error:', result.message);
@@ -1056,7 +1056,7 @@ try {
             
             // Function to fetch notifications
             function fetchNotifications() {
-                fetch('get_notifications.php')
+                fetch('get-notification')
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
@@ -1171,7 +1171,7 @@ try {
                                 </div>` : ''}
                                 
                                 <div class="mt-1 text-right">
-                                    <a href="appointments.php" class="text-xs ${textColorClass}">View details</a>
+                                    <a href="my-appt" class="text-xs ${textColorClass}">View details</a>
                                 </div>
                             </div>
                             ${!notification.is_read ? '<span class="h-2 w-2 rounded-full bg-blue-500 flex-shrink-0 mt-1"></span>' : ''}
@@ -1189,14 +1189,14 @@ try {
                 if (notifications.length > 5) {
                     const seeAllLink = document.createElement('div');
                     seeAllLink.className = 'p-3 text-center border-t';
-                    seeAllLink.innerHTML = '<a href="all_notifications.php" class="text-blue-600 text-sm">See all notifications</a>';
+                    seeAllLink.innerHTML = '<a href="all-notifications" class="text-blue-600 text-sm">See all notifications</a>';
                     notificationsList.appendChild(seeAllLink);
                 }
             }
             
             // Function to mark a notification as read
             function markNotificationAsRead(notificationId) {
-                fetch('update_notification.php', {
+                fetch('notification-update', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
@@ -1216,7 +1216,7 @@ try {
             
             // Function to mark all notifications as read
             function markAllNotificationsAsRead() {
-                fetch('update_notification.php', {
+                fetch('notification-update', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',

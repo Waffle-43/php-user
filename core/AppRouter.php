@@ -91,15 +91,21 @@ class AppRouter
         //service routes
         $router->get('/services', function () {
             Middleware::requireAuth();
+            // Potentially add Middleware::requirePermission('view_services'); if needed
             require __DIR__ . '/../services/SerCus.php';
         });
         $router->get('/manage-services', function () {
-            Middleware::requireAuth();
+            // Middleware::requireAuth(); // requirePermission calls requireAuth already
+            Middleware::requirePermission('manage_services'); 
             require __DIR__ . '/../services/service_provider_manage_services.php';
         });
         $router->get('/add-services', function () {
             Middleware::requireAuth();
             require __DIR__ . '/../services/addService.php';
+        });
+        $router->get('/edit-services', function () {
+            Middleware::requireAuth();
+            require __DIR__ . '/../services/editService.php';
         });
         $router->get('/list-services', function () {
             Middleware::requireAuth();
@@ -109,11 +115,19 @@ class AppRouter
             Middleware::requireAuth();
             require __DIR__ . '/../services/service_provider_reschedule.php';
         });
+        $router->get('/serviceprovider-services', function () {
+            Middleware::requireAuth();
+            require __DIR__ . '/../services/service_provider_services.php';
+        });
 
         //appointment routes
-        $router->get('/appointments', function () {
+        $router->get('/book-appt', function () {
             Middleware::requireAuth();
-            require __DIR__ . '/..//appointments/appointment.php';
+            require __DIR__ . '/../appointments/book-appt.php';
+        });
+          $router->get('/my-appt', function () {
+            Middleware::requireAuth();
+            require __DIR__ . '/../appointments/appointments.php';
         });
         $router->get('/all-appointments', function () {
             Middleware::requireAuth();
@@ -127,6 +141,19 @@ class AppRouter
             Middleware::requireAuth();
             require __DIR__ . '/../appointments/service_provider_add_appointment.php';
         });
+        $router->get('/calendar-appt', function () {
+            Middleware::requireAuth();
+            require __DIR__ . '/../appointments/service_provider_calendar.php';
+        });
+        $router->get('/appointment-status-check', function () {
+            Middleware::requireAuth();
+            require __DIR__ . '/../appointments/appointment_status_check.php';
+        });
+        $router->get('/enhanced-dashboard', function () {
+            Middleware::requireAuth();
+            require __DIR__ . '/../appointments/service_provider_enhanced_dashboard.php';
+        });
+        
 
 
         //stylist routes
@@ -140,6 +167,15 @@ class AppRouter
             Middleware::requireAuth();
             require __DIR__ . '/../notifications/notification.php';
         });
+        $router->get('/notification-update', function () {
+            Middleware::requireAuth();
+            require __DIR__ . '/../notifications/update_notification.php';
+        });
+        $router->get('/get-notifications', function () {
+            Middleware::requireAuth();
+            require __DIR__ . '/../notifications/get_notifications.php';
+        });
+
         //profile route
         $router->get('/profile', function () {
             Middleware::requireAuth();
@@ -173,11 +209,15 @@ class AppRouter
             StaffAuth::requireStaffLogin();
             AdminDashboard::index();
         });
-         $router->get('/service-dashboard', function () {
+         $router->get('/unified-dashboard', function () {
             require __DIR__ . '/../unified_dashboard.php';
+        });
+         $router->get('/service-dashboard', function () {
+            require __DIR__ . '/../appointments/service_provider_dashboard.php';
         });
 
         $router->get('/staff-manage', function () {
+              require __DIR__ . '/../pages/staff/manage_staff.php';
             StaffAuth::requirePermission(RolePermission::PERMISSION_MANAGE_STAFF);
             AdminDashboard::manageStaff();
         });
@@ -210,6 +250,24 @@ class AppRouter
         $router->post('/verify-email', function () {
             $controller = new VerifyEmail();
             $controller->handleRequest();
+        });
+
+        // User Management Routes
+        $router->get('/users-manage', function () {
+            Middleware::requireAuth();
+            require __DIR__ . '/../pages/user/index.php';
+        });
+        $router->get('/users-create', function () {
+            Middleware::requireAuth();
+            require __DIR__ . '/../pages/user/create.php';
+        });
+        $router->get('/users-edit', function ($id) {
+            Middleware::requireAuth();
+            require __DIR__ . '/../pages/user/edit.php';
+        });
+        $router->get('/users-show', function ($id) {
+            Middleware::requireAuth();
+            require __DIR__ . '/../pages/user/show.php';
         });
 
 

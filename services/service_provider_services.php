@@ -1,5 +1,5 @@
 <?php
-include 'config.php';
+require_once __DIR__ . '/../utils_files/config.php'; // Config
 
 // Check if stylist_id is set (for testing purposes)
 $stylist_id = isset($_GET['stylist_id']) ? intval($_GET['stylist_id']) : 1;
@@ -322,25 +322,25 @@ $states = [
         <!-- Sidebar -->
         <div class="sidebar">
             <div class="sidebar-menu">
-                <a href="../appointments/service_provider_enhanced_dashboard.php?stylist_id=<?= $stylist_id ?>">
+                <a href="enhanced-dashboard?stylist_id=<?= $stylist_id ?>">
                     <i class="fas fa-tachometer-alt"></i> Dashboard
                 </a>
-                <a href="../appointments/service_provider_all_appointments.php?stylist_id=<?= $stylist_id ?>">
+                <a href="all-appointments?stylist_id=<?= $stylist_id ?>">
                     <i class="far fa-calendar-alt"></i> All Appointments
                 </a>
-                <a href="../appointments/service_provider_add_appointment.php?stylist_id=<?= $stylist_id ?>">
+                <a href="add-appointments?stylist_id=<?= $stylist_id ?>">
                     <i class="fas fa-plus-circle"></i> Add Appointment
                 </a>
-                <a href="../appointments/service_provider_manage_appointment.php?stylist_id=<?= $stylist_id ?>">
+                <a href="manage-appointment?stylist_id=<?= $stylist_id ?>">
                     <i class="fas fa-edit"></i> Manage Appointments
                 </a>
-                <a href="../appointments/service_provider_calendar.php?stylist_id=<?= $stylist_id ?>">
+                <a href="calendar-appt?stylist_id=<?= $stylist_id ?>">
                     <i class="fas fa-calendar-check"></i> Calendar View
                 </a>
-                <a href="service_provider_services.php?stylist_id=<?= $stylist_id ?>" class="active">
+                <a href="serviceprovider-services?stylist_id=<?= $stylist_id ?>" class="active">
                     <i class="fas fa-spa"></i> Manage Services
                 </a>
-                <a href="../appointments/service_provider_reschedule.php?stylist_id=<?= $stylist_id ?>">
+                <a href="reschedule-services?stylist_id=<?= $stylist_id ?>">
                     <i class="fas fa-sync-alt"></i> Reschedule
                 </a>
                 <a href="#">

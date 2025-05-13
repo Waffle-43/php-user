@@ -1,5 +1,5 @@
 <?php
-include 'config.php';
+require_once __DIR__ . '/../utils_files/config.php'; // Config
 
 // Check if stylist_id is set (for testing purposes)
 $stylist_id = isset($_GET['stylist_id']) ? intval($_GET['stylist_id']) : 1;
@@ -611,16 +611,16 @@ $notificationCount = count($notifications);
                     <a href="home" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
                         <i class="fas fa-home mr-2"></i> Back to Homepage
                     </a>
-                    <a href="service_provider_dashboard.php?stylist_id=<?= $stylist_id ?>" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
+                    <a href="service-dashboard?stylist_id=<?= $stylist_id ?>" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
                         <i class="fas fa-spa mr-2"></i> Dashboard
                     </a>
-                    <a href="service_provider_calendar.php?stylist_id=<?= $stylist_id ?>" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
+                    <a href="calendar-appt?stylist_id=<?= $stylist_id ?>" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
                         <i class="fas fa-calendar-alt mr-2"></i> Calendar
                     </a>
-                    <a href="service_provider_all_appointments.php?stylist_id=<?= $stylist_id ?>" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
+                    <a href="all-appointments?stylist_id=<?= $stylist_id ?>" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
                         <i class="fas fa-calendar-check mr-2"></i> All Appointments
                     </a>
-                    <a href="service_provider_manage_services.php?stylist_id=<?= $stylist_id ?>" class="block py-2 px-3 rounded bg-white bg-opacity-10 mb-1">
+                    <a href="manage-services?stylist_id=<?= $stylist_id ?>" class="block py-2 px-3 rounded bg-white bg-opacity-10 mb-1">
                         <i class="fas fa-concierge-bell mr-2"></i> Manage Services
                     </a>
                 </div>

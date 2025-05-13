@@ -20,7 +20,7 @@ if (!isset($_SESSION['user_id'])) {
     $_SESSION['user_id'] = $customerId;
 }
 
-require_once 'connect.php';
+require_once __DIR__ . '/../utils_files/connect.php'; // Database connection
 
 // Helper function to get CSS class for appointment status
 function getStatusClass($status) {
@@ -315,14 +315,14 @@ if (isset($_POST['cancel_appointment'])) {
         <?php if (isset($error)): ?>
             <div class="text-center py-8 bg-white rounded-lg shadow">
                 <p class="text-red-500">Error: <?= htmlspecialchars($error) ?></p>
-                <a href="appointments.php" class="mt-4 inline-block px-6 py-2 bg-pink-500 text-white rounded-md hover:bg-pink-600">
+                <a href="my-appts" class="mt-4 inline-block px-6 py-2 bg-pink-500 text-white rounded-md hover:bg-pink-600">
                     Retry
                 </a>
             </div>
         <?php elseif (empty($appointments)): ?>
             <div class="text-center py-8 bg-white rounded-lg shadow">
                 <p class="text-gray-500">You don't have any appointments yet.</p>
-                <a href="appointment_ui.php" class="mt-4 inline-block px-6 py-2 bg-pink-500 text-white rounded-md hover:bg-pink-600">
+                <a href="book-appt" class="mt-4 inline-block px-6 py-2 bg-pink-500 text-white rounded-md hover:bg-pink-600">
                     Book an Appointment
                 </a>
             </div>
@@ -433,7 +433,7 @@ if (isset($_POST['cancel_appointment'])) {
         <div class="mt-8 p-4 bg-white rounded-lg shadow">
             <h2 class="text-xl font-bold text-gray-800 mb-2">Need Help?</h2>
             <p class="text-gray-600 mb-4">Having trouble with your appointments? Try our diagnostic tool:</p>
-            <a href="appointment_status_check.php" class="inline-block px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300">
+            <a href="appointment-status-check" class="inline-block px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300">
                 Appointment Status Check Tool
             </a>
         </div>
@@ -504,7 +504,7 @@ if (isset($_POST['cancel_appointment'])) {
             sessionStorage.setItem('reschedule_stylist_id', stylistId);
             
             // Redirect to reschedule page
-            window.location.href = 'reschedule_appointment.php';
+            window.location.href = 'reschedule-appointment';
         }
     </script>
 

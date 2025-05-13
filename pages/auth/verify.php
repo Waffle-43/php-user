@@ -41,7 +41,6 @@ $email = $_SESSION['verification_email'] ?? null;
                     <p class="success"><?= htmlspecialchars($_SESSION['success']); ?></p>
                 </div>
             <?php endif ?>
-            <button type="submit" class="btn">Verify</button>
             <form action="verify-email" method="POST">
                 <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrfToken) ?>">
                 <input type="hidden" name="role"

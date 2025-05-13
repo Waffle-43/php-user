@@ -14,6 +14,65 @@ class Helper
     {
         return isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token);
     }
+    /**
+     * Display flash messages
+     */
+    public static function displayFlashMessages()
+    {
+        $output = '';
+
+        // Display error messages
+        if (isset($_SESSION['errors']) && is_array($_SESSION['errors'])) {
+            $output .= '<div class="alert alert-danger">';
+            foreach ($_SESSION['errors'] as $error) {
+                $output .= "<p>" . htmlspecialchars($error) . "</p>";
+            }
+            $output .= '</div>';
+            unset($_SESSION['errors']);
+        }
+
+        // Display success message
+        if (isset($_SESSION['success'])) {
+            $output .= '<div class="alert alert-success">';
+            $output .= "<p>" . htmlspecialchars($_SESSION['success']) . "</p>";
+            $output .= '</div>';
+            unset($_SESSION['success']);
+        }
+
+        return $output;
+    }
+
+    /**
+     * Get old form input value
+     */
+    public static function old($field, $default = '')
+    {
+        if (isset($_SESSION['form_data'][$field])) {
+            $value = $_SESSION['form_data'][$field];
+            return htmlspecialchars($value);
+        }
+        return htmlspecialchars($default);
+    }
+
+    /**
+     * Check if user is logged in
+     */
+    public static function isLoggedIn()
+    {
+        return isset($_SESSION['user']);
+    }
+
+    /**
+     * Check if user has specific role
+     */
+    public static function hasRole($role)
+    {
+        if (!self::isLoggedIn()) {
+            return false;
+        }
+
+        return $_SESSION['user']['role'] === $role;
+    }
 
     /**
      * Generate a random numeric code of a given length.
@@ -61,7 +120,8 @@ class Helper
                 echo '<p class="error">' . implode('<br>', $_SESSION['errors'][$field]) . '</p>';
             } else {
                 echo '<p class="error">' . '<br>', $_SESSION['errors'][$field] . '</p>';
-            };
+            }
+            ;
         }
     }
 
@@ -149,7 +209,8 @@ class Helper
 
     public static function sanitize($input, $type = 'string')
     {
-        if (!isset($input)) return null;
+        if (!isset($input))
+            return null;
 
         $input = trim($input);
 
@@ -167,7 +228,7 @@ class Helper
         }
     }
 
-   
+
     /**
      * Generate a CSRF token and store it in the session.
      *

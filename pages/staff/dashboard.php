@@ -2,6 +2,8 @@
 // Ensure this file is included in the correct context
 defined('BASEPATH') or define('BASEPATH', true);
 
+$rbacService = new \App\Auth\RbacService();
+
 // Check if staff is logged in
 if (!isset($_SESSION['staff'])) {
     header('Location: /staff-signin');
@@ -84,7 +86,7 @@ $role = $currentStaff['role'] ?? 'staff';
                             </a>
                         </li>
                         
-                        <?php if (\App\Auth\RolePermission::hasPermission(\App\Auth\RolePermission::PERMISSION_MANAGE_APPOINTMENTS)): ?>
+                        <?php if (isset($_SESSION['staff']['id']) && $rbacService->userHasPermission($_SESSION['staff']['id'], 'manage_appointments', 'staff')): ?>
                         <li class="nav-item">
                             <a class="nav-link" href="/appointments">
                                 <i class="bi bi-calendar-check me-1"></i>
@@ -93,7 +95,7 @@ $role = $currentStaff['role'] ?? 'staff';
                         </li>
                         <?php endif; ?>
                         
-                        <?php if (\App\Auth\RolePermission::hasPermission(\App\Auth\RolePermission::PERMISSION_MANAGE_SERVICES)): ?>
+                        <?php if (isset($_SESSION['staff']['id']) && $rbacService->userHasPermission($_SESSION['staff']['id'], 'manage_services', 'staff')): ?>
                         <li class="nav-item">
                             <a class="nav-link" href="/services">
                                 <i class="bi bi-list-check me-1"></i>
@@ -102,7 +104,7 @@ $role = $currentStaff['role'] ?? 'staff';
                         </li>
                         <?php endif; ?>
                         
-                        <?php if (\App\Auth\RolePermission::hasPermission(\App\Auth\RolePermission::PERMISSION_MANAGE_USERS)): ?>
+                        <?php if (isset($_SESSION['staff']['id']) && $rbacService->userHasPermission($_SESSION['staff']['id'], 'manage_users', 'staff')): ?>
                         <li class="nav-item">
                             <a class="nav-link" href="/users">
                                 <i class="bi bi-people me-1"></i>
@@ -111,7 +113,7 @@ $role = $currentStaff['role'] ?? 'staff';
                         </li>
                         <?php endif; ?>
                         
-                        <?php if (\App\Auth\RolePermission::hasPermission(\App\Auth\RolePermission::PERMISSION_MANAGE_STAFF)): ?>
+                        <?php if (isset($_SESSION['staff']['id']) && $rbacService->userHasPermission($_SESSION['staff']['id'], 'manage_staff', 'staff')): ?>
                         <li class="nav-item">
                             <a class="nav-link" href="/staff-manage">
                                 <i class="bi bi-person-badge me-1"></i>

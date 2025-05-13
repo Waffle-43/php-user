@@ -2,6 +2,7 @@
 
 namespace Core;
 
+use App\Auth\RbacService; // Added for RBAC
 
 class Middleware
 {
@@ -51,6 +52,52 @@ class Middleware
 
         $_SESSION['user']['last_activity'] = time();
     }
+
+    /**
+     * Check if the authenticated user has a specific permission.
+     * Redirects or shows 403 error if permission is denied.
+     *
+     * @param string $permissionName The name of the permission to check.
+     */
+    public static function requirePermission(string $permissionName)
+    {
+        // First, ensure the user is authenticated.
+        self::requireAuth();
+
+        // Assuming requireAuth() ensures $_SESSION['user'] is set.
+        $userId = $_SESSION['user']['id'] ?? null;
+        $sessionRole = $_SESSION['user']['role'] ?? null;
+
+        if ($userId === null || $sessionRole === null) {
+            // This case should ideally be caught by requireAuth, but as a safeguard:
+            header("HTTP/1.1 403 Forbidden");
+            echo "Access Denied: User information not found in session.";
+            exit;
+        }
+
+        // Determine userType for RbacService based on session role
+        $rbacUserType = '';
+        if ($sessionRole === 'user') {
+            $rbacUserType = 'customer';
+        } elseif ($sessionRole === 'staff' || $sessionRole === 'admin') {
+            // Assumes 'admin' session role corresponds to a user in the 'staff' table
+            $rbacUserType = 'staff';
+        } else {
+            // Unknown session role, deny access
+            header("HTTP/1.1 403 Forbidden");
+            echo "Access Denied: Unknown user role.";
+            exit;
+        }
+
+        $rbacService = new RbacService();
+        if (!$rbacService->userHasPermission($userId, $permissionName, $rbacUserType)) {
+            header("HTTP/1.1 403 Forbidden");
+            // You might want to redirect to a specific error page or show a nicer message
+            echo "Access Denied: You do not have the required permission ({$permissionName}).";
+            exit;
+        }
+    }
+    
     public static function logout()
     {
         session_unset();

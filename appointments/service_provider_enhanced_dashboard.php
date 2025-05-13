@@ -319,14 +319,25 @@ try {
             </div>
             <nav class="p-4">
                 <div class="sidebar-menu">
-                    <a href="service_provider_enhanced_dashboard.php?stylist_id=<?= $stylist_id ?>" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-                    <a href="service_provider_all_appointments.php?stylist_id=<?= $stylist_id ?>"><i class="far fa-calendar-alt"></i> All Appointments</a>
-                    <a href="service_provider_add_appointment.php?stylist_id=<?= $stylist_id ?>"><i class="fas fa-plus-circle"></i> Add Appointment</a>
-                    <a href="service_provider_manage_appointment.php?stylist_id=<?= $stylist_id ?>"><i class="fas fa-edit"></i> Manage Appointments</a>
-                    <a href="service_provider_calendar.php?stylist_id=<?= $stylist_id ?>"><i class="fas fa-calendar-check"></i> Calendar View</a>
-                    <a href="service_provider_services.php?stylist_id=<?= $stylist_id ?>"><i class="fas fa-spa"></i> Manage Services</a>
-                    <a href="service_provider_reschedule.php?stylist_id=<?= $stylist_id ?>"><i class="fas fa-sync-alt"></i> Reschedule</a>
-                    <a href="#"><i class="fas fa-cog"></i> Settings</a>
+                  <p class="text-xs uppercase text-indigo-200 mb-2">Navigation</p>
+                    <a href="home" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
+                        <i class="fas fa-home mr-2"></i> Back to Homepage
+                    </a>
+                    <a href="service-dashboard?stylist_id=<?= $stylist_id ?>" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
+                        <i class="fas fa-spa mr-2"></i> Dashboard
+                    </a>
+                    <a href="calendar-appt?stylist_id=<?= $stylist_id ?>" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
+                        <i class="fas fa-calendar-alt mr-2"></i> Calendar
+                    </a>
+                    <a href="all-appointments?stylist_id=<?= $stylist_id ?>" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
+                        <i class="fas fa-calendar-check mr-2"></i> All Appointments
+                    </a>
+                    <a href="add-services?stylist_id=<?= $stylist_id ?>" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
+                        <i class="fas fa-plus-circle mr-2"></i> Add Service
+                    </a>
+                    <a href="edit-services.php?stylist_id=<?= $stylist_id ?>" class="block py-2 px-3 rounded bg-white bg-opacity-10 mb-1">
+                        <i class="fas fa-edit mr-2"></i> Manage Services
+                    </a>
                 </div>
             </nav>
         </div>

@@ -4,10 +4,10 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Include our notification utilities
-require_once 'notification_utils.php';
+require_once __DIR__ . '/../notifications/notification_utils.php';
 
 // Use connect.php for database connection
-$conn = require_once 'connect.php';
+$conn = require_once __DIR__ . '/../utils_files/connect.php'; // Database connection
 
 // Determine if this is a JSON response or redirect based on request type
 $isJsonResponse = !(isset($_GET['redirect']));

@@ -1,11 +1,14 @@
 <?php
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
 
 use Core\Database;
 
 $pdo = Database::getInstance(); 
 
-$files = glob(__DIR__ . "/migrations/*.php");
+$migrationFiles = glob(__DIR__ . "/*.php");
+$files = array_filter($migrationFiles, function($file) {
+    return pathinfo($file, PATHINFO_BASENAME) !== 'migrate.php';
+});
 
 $rollback = in_array('--down', $argv);
 

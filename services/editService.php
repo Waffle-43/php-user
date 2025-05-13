@@ -147,19 +147,19 @@ $states = [
                     <a href="home" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
                         <i class="fas fa-home mr-2"></i> Back to Homepage
                     </a>
-                    <a href="../appointments/service_provider_dashboard.php?stylist_id=<?= $stylist_id ?>" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
+                    <a href="service-dashboard?stylist_id=<?= $stylist_id ?>" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
                         <i class="fas fa-spa mr-2"></i> Dashboard
                     </a>
-                    <a href="../appointments/service_provider_calendar.php?stylist_id=<?= $stylist_id ?>" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
+                    <a href="calendar-appt?stylist_id=<?= $stylist_id ?>" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
                         <i class="fas fa-calendar-alt mr-2"></i> Calendar
                     </a>
-                    <a href="../appointments/service_provider_all_appointments.php?stylist_id=<?= $stylist_id ?>" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
+                    <a href="all-appointments?stylist_id=<?= $stylist_id ?>" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
                         <i class="fas fa-calendar-check mr-2"></i> All Appointments
                     </a>
-                    <a href="addService.php?stylist_id=<?= $stylist_id ?>" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
+                    <a href="add-services?stylist_id=<?= $stylist_id ?>" class="block py-2 px-3 rounded hover:bg-white hover:bg-opacity-10 mb-1">
                         <i class="fas fa-plus-circle mr-2"></i> Add Service
                     </a>
-                    <a href="editService.php?stylist_id=<?= $stylist_id ?>" class="block py-2 px-3 rounded bg-white bg-opacity-10 mb-1">
+                    <a href="edit-services.php?stylist_id=<?= $stylist_id ?>" class="block py-2 px-3 rounded bg-white bg-opacity-10 mb-1">
                         <i class="fas fa-edit mr-2"></i> Manage Services
                     </a>
     </div>
@@ -296,7 +296,7 @@ $states = [
                                     class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                 Update Service
                             </button>
-                            <a href="editService.php?stylist_id=<?= $stylist_id ?>" 
+                            <a href="edit-services?stylist_id=<?= $stylist_id ?>" 
                                class="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
                                 Cancel
                             </a>
@@ -307,7 +307,7 @@ $states = [
                 <!-- Services List -->
                 <div class="mb-4 flex justify-between items-center">
                     <h3 class="text-lg font-semibold text-gray-700">All Services</h3>
-                    <a href="addService.php?stylist_id=<?= $stylist_id ?>" 
+                    <a href="add-services?stylist_id=<?= $stylist_id ?>" 
                        class="inline-flex items-center px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md hover:bg-indigo-700">
                         <i class="fas fa-plus mr-2"></i> Add New Service
                     </a>
